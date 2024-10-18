@@ -30,6 +30,7 @@ const useChatMessages = (currentUserId: string, currentUserRole: string): ChatMe
     });
 
     const channel = pusher.subscribe('chat-channel');
+
     channel.bind('new-message', (data: Message) => {
       if (!data.sender) {
         console.error(`Received message with invalid sender:`, data);
@@ -58,9 +59,9 @@ const useChatMessages = (currentUserId: string, currentUserRole: string): ChatMe
     const newMessage: Message = {
       id: uuidv4(),
       content,
-      sender: currentUserId, 
+      sender: currentUserId,
       receiverId,
-      role: currentUserRole,  
+      role: currentUserRole,
       timestamp: Date.now(),
     };
 
@@ -94,4 +95,16 @@ const useChatMessages = (currentUserId: string, currentUserRole: string): ChatMe
 };
 
 export default useChatMessages;
+
+
+
+
+
+
+
+
+
+
+
+
 

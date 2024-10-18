@@ -83,7 +83,7 @@ const WelcomeSection = () => {
         </div>
         
         <div className="mt-10 md:mt-20 flex justify-center">
-          <Link href="/lawyer/components/Link-to-join">
+          <Link href="/lawyer/Link-to-join">
             <button
               className="bg-foreground text-white px-16 md:px-32 py-3 mt-10 md:mt-20 rounded-md text-lg hover:bg-primary transition duration-300 shadow-md"
             >

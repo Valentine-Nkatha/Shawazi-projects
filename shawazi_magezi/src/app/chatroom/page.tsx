@@ -10,7 +10,7 @@ import { UserDatas } from "../utils/types";
 import { Toaster, toast } from "react-hot-toast";
 import { CgProfile } from "react-icons/cg";
 import InviteLawyerModal from "../(lawyer)/lawyer/components/Invite-lawyer";
-import SideBar from "../components/Sidebarpwa";
+// import SideBar from "../components/Sidebarpwa";
 
 type GetUserType = {
   id: string;
@@ -227,7 +227,7 @@ const ChatRoom: React.FC = () => {
     <div className="flex flex-col md:flex-row h-screen bg-gray-100 font-jost">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-1/4 md:w-1/5 bg-white border-r border-gray-200 shadow-md hidden lg:block">
-        <SideBar userRole={""} />
+        {/* <SideBar userRole={""} /> */}
       </div>
 
       <div className="lg:hidden">
@@ -246,7 +246,7 @@ const ChatRoom: React.FC = () => {
               >
                 Close
               </button>
-              <SideBar userRole={""} />
+              {/* <SideBar userRole={""} /> */}
             </div>
           </div>
         )}

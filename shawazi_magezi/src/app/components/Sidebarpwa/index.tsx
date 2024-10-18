@@ -36,14 +36,16 @@ const SideBar: React.FC<SideBarProps> = ({ userRole }) => {
   const pathname = usePathname();
   const router = useRouter();
   const roleSpecificRoutes: RoleSpecificRoutes = React.useMemo(() => ({
-    seller: {
-      home: '/seller/seller-page',
-      contract: '/agreementnext',
-    },
     buyer: {
       home: '/buyer/land-display',
       contract: '/agreementnext',
     },
+
+    seller: {
+      home: '/seller/seller-page',
+      contract: '/agreementnext',
+    },
+
     lawyer: {
       home: '/lawyer/draft-contract',
       contract: '/agreementnext',

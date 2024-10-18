@@ -16,7 +16,7 @@ const ITEMS_PER_PAGE = 6;
 
 function LandDetailsList() {
   const [landIds] = useState([
-    "147",
+    "150",
     "148",
     "115",
     "114",
