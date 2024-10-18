@@ -12,56 +12,43 @@ interface Notification {
 const SellerNotifications = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState<string | null>(null);
 
   useEffect(() => {
-    const userPhone = Cookies.get("userPhone");
-    setPhoneNumber(userPhone || null);
-  }, []);
-
-  const fetchNotifications = async () => {
-    if (!phoneNumber) {
-      console.error('Phone number not available');
-      return;
+    
+    const storedNotifications = Cookies.get('sellerNotifications');
+    if (storedNotifications) {
+      setNotifications(JSON.parse(storedNotifications));
     }
 
-    try {
-      const response = await fetch(`/api/notifications/${phoneNumber}`);
-      
-      if (response.ok) {
-        const data = await response.json();
-        setNotifications(data.notifications);
-      } else {
-        console.error('Failed to fetch notifications');
+    const checkForNotifications = () => {
+      const notification = Cookies.get('buyerNotification');
+      if (notification) {
+        const parsedNotification: Notification = JSON.parse(notification);
+        setNotifications((prev) => {
+          const updatedNotifications = [...prev, parsedNotification];
+
+          
+          Cookies.set('sellerNotifications', JSON.stringify(updatedNotifications), { expires: 7 });
+          return updatedNotifications;
+        });
+        
+        
+        Cookies.remove('buyerNotification');
       }
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
-    }
-  };
+    };
 
-  const clearNotifications = () => {
-    setNotifications([]);
-  };
-
-  useEffect(() => {
-    if (phoneNumber) {
-      fetchNotifications();
-
-      const intervalId = setInterval(() => {
-        fetchNotifications();
-      }, 5000);
-
-      return () => clearInterval(intervalId);
-    }
-  }, [phoneNumber]);
+    const intervalId = setInterval(checkForNotifications, 5000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   const toggleNotifications = () => {
     setShowNotifications((prev) => !prev);
   };
 
-  if (!phoneNumber) {
-    return null;
-  }
+  const clearNotifications = () => {
+    setNotifications([]);
+    Cookies.remove('sellerNotifications'); 
+  };
 
   return (
     <div className="relative">

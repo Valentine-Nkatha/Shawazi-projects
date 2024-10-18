@@ -1,18 +1,20 @@
 "use client";
-
-import React, { useEffect } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import React, { useEffect, useState } from "react";
 import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
 import { MdClose } from "react-icons/md";
-import { LandDetails } from "@/app/utils/types";
-
+import { LandDetails, UserDatas } from "@/app/utils/types";
+import Cookies from 'js-cookie';
 
 interface LandDetailsModalProps {
   land: LandDetails | null;
   onClose: () => void;
 }
- 
 
 const LandDetailsModal: React.FC<LandDetailsModalProps> = ({ land, onClose }) => {
+  const [loadingStates, setLoadingStates] = useState<{ [key: string]: boolean }>({});
+
   useEffect(() => {
     console.log("Google Maps API Key:", process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
   }, []);
@@ -31,9 +33,75 @@ const LandDetailsModal: React.FC<LandDetailsModalProps> = ({ land, onClose }) =>
     return dateStr ? new Date(dateStr).toLocaleDateString() : "N/A";
   };
 
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+  const handleInterestClick = async (land: LandDetails) => {
+    setLoadingStates((prev) => ({ ...prev, [land.land_details_id]: true }));
   
+    try {
+      const userPhone = Cookies.get("phone_number"); 
+      if (!userPhone) {
+        toast.error("User is not logged in!");
+        return;
+      }
   
+      const response = await fetch(`${BASE_URL}/api/users/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
   
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data.");
+      }
+  
+      const users: UserDatas[] = await response.json();
+      const currentUser = users.find((user) => user.phone_number === userPhone);
+      if (!currentUser) {
+        toast.error("User not found!");
+        return;
+      }
+  
+      if (!currentUser.first_name || !currentUser.last_name) {
+        toast.error("Invalid buyer data!");
+        return;
+      }
+  
+      const buyerName = `${currentUser.first_name} ${currentUser.last_name}`;
+      const notificationData = {
+        message: `A buyer named ${buyerName} is interested in your land in ${land.location_name}!`,
+        timestamp: new Date().toISOString(),
+      };
+      
+      console.log('Notification Data:', notificationData); 
+  
+      const postResponse = await fetch(
+        `${BASE_URL}/api/notify-seller/${land.land_details_id}/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(notificationData),
+        }
+      );
+  
+      if (!postResponse.ok) {
+        const errorMessage = await postResponse.text();
+        console.error("Error response:", errorMessage);
+        throw new Error("Failed to send notification.");
+      }
+  
+      Cookies.set('buyerNotification', JSON.stringify(notificationData), { expires: 7 });
+      toast.success("Interest expressed successfully. Notification sent to seller.");
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("This land is already under consideration by another buyer.");
+    } finally {
+      setLoadingStates((prev) => ({ ...prev, [land.land_details_id]: false }));
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -72,9 +140,11 @@ const LandDetailsModal: React.FC<LandDetailsModalProps> = ({ land, onClose }) =>
           <p><strong>National ID:</strong> {land.national_id || "N/A"}</p>
         </div>
         <button 
-        
-        className="bg-foreground hover:bg-primary text-white font-bold py-2 px-4 rounded mt-4">
-          Interested
+          onClick={() => handleInterestClick(land)}
+          className="bg-foreground hover:bg-primary text-white font-bold py-2 px-4 rounded mt-4"
+          disabled={loadingStates[land.land_details_id] || false} 
+        >
+          {loadingStates[land.land_details_id] ? 'Loading...' : 'Interested'}
         </button>
       </div>
     </div>

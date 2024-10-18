@@ -8,7 +8,6 @@ import { LandDetails, UserDatas } from "@/app/utils/types";
 import { FaTh, FaList } from "react-icons/fa";
 import LandSearch from "../components/Searchbar";
 import SideBar from "@/app/components/Sidebarpwa";
-import { fetchUsers } from "@/app/utils/fetchUsers";
 import Cookies from 'js-cookie';
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -80,17 +79,29 @@ function LandDetailsList() {
     width: "100%",
     height: "250px",
   };
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const handleInterestClick = async (land: LandDetails) => {
     setLoadingStates((prev) => ({ ...prev, [land.land_details_id]: true }));
   
     try {
-      const userPhone = Cookies.get("userPhone");
+      const userPhone = Cookies.get("phone_number"); 
       if (!userPhone) {
         toast.error("User is not logged in!");
         return;
       }
   
-      const users: UserDatas[] = await fetchUsers();
+      const response = await fetch(`${BASE_URL}/api/users/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data.");
+      }
+  
+      const users: UserDatas[] = await response.json();
       const currentUser = users.find((user) => user.phone_number === userPhone);
       if (!currentUser) {
         toast.error("User not found!");
@@ -107,20 +118,33 @@ function LandDetailsList() {
         message: `A buyer named ${buyerName} is interested in your land in ${land.location_name}!`,
         timestamp: new Date().toISOString(),
       };
+      
+      console.log('Notification Data:', notificationData); 
   
-      console.log("Interest expressed:", {
-        landId: land.land_details_id,
-        ...notificationData
-      });
+      const postResponse = await fetch(
+        `${BASE_URL}/api/notify-seller/${land.land_details_id}/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(notificationData),
+        }
+      );
   
-      toast.success("Interest expressed successfully.");
+      if (!postResponse.ok) {
+        const errorMessage = await postResponse.text();
+        console.error("Error response:", errorMessage);
+        throw new Error("Failed to send notification.");
+      }
+  
+      
+      Cookies.set('buyerNotification', JSON.stringify(notificationData), { expires: 7 });
+  
+      toast.success("Interest expressed successfully. Notification sent to seller.");
     } catch (error) {
       console.error("Error:", error);
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error("Failed to express interest. Please try again later.");
-      }
+      toast.error("This land is already under consideration by another buyer.");
     } finally {
       setLoadingStates((prev) => ({ ...prev, [land.land_details_id]: false }));
     }

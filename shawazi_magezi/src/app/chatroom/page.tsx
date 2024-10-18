@@ -54,7 +54,7 @@ const ChatRoom: React.FC = () => {
   const [localMessages, setLocalMessages] = useState<MessageType[]>([]);
 
   useEffect(() => {
-    const userRole = getCookie("userRole") as string;
+    const userRole = getCookie("role") as string;
     const userName = getCookie("userName") as string;
     const userId = getCookie("userId") as string;
     setCurrentUserRole(userRole);
