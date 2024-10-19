@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from 'react';
 import Pusher from 'pusher-js';
 import { v4 as uuidv4 } from 'uuid';
@@ -95,16 +96,5 @@ const useChatMessages = (currentUserId: string, currentUserRole: string): ChatMe
 };
 
 export default useChatMessages;
-
-
-
-
-
-
-
-
-
-
-
 
 

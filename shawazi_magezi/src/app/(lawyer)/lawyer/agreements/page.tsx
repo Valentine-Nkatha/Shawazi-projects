@@ -98,7 +98,7 @@ const CreateAgreement: React.FC = () => {
       }
       const newAgreement = await response.json();
       localStorage.setItem("recentAgreement", JSON.stringify(newAgreement));
-      router.push("/agreementnext");
+      router.push("/lawyer/components/agreementnext");
     } catch (error) {
       if (error instanceof Error) {
         console.error("Failed to submit agreement:", error.message);
@@ -184,7 +184,7 @@ const CreateAgreement: React.FC = () => {
           <button
             type="button"
             className="flex-1 bg-green-500 text-white py-2 rounded-lg hover:bg-opacity-90 transition duration-300"
-            onClick={() => router.push("/agreementnext")}
+            onClick={() => router.push("/lawyer/components/agreementnext")}
           >
             Next Page
           </button>

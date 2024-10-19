@@ -4,14 +4,15 @@ import Link from "next/link";
 import useTransactions from "@/app/hooks/useTransactions";
 
 import ProgressBar from "@/app/components/Progressbar";
-import SideBarPwa from "@/app/components/Sidebarpwa";
+import SellerSidebar from "../../components/SellerSidebar";
+// import SideBarPwa from "@/app/components/Sidebarpwa";
 
 const TransactionsDisplay = () => {
   const { transactions, isLoading, error } = useTransactions();
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
-      <SideBarPwa userRole={""} />
+     <SellerSidebar/>
 
       <div className="flex-grow p-6 md:mr-4 lg:mr-0">
         <header className="flex justify-center items-center p-4 w-full max-w-5xl">
@@ -29,12 +30,12 @@ const TransactionsDisplay = () => {
                 History Of Transactions
               </button>
             </Link>
-            <Link href="/transactions/upload_transactions">
+            <Link href="/seller/transactions/upload_transactions">
               <button className="custom-button bg-hover text-white py-2 px-4 rounded-lg">
                 Upload Payments
               </button>
             </Link>
-            <Link href="/transactions/history-of-transactions">
+            <Link href="/seller/transactions/history-of-transactions">
               <button className="custom-button bg-hover text-white py-2 px-4 rounded-lg mt-3">
                 View More
               </button>
@@ -47,6 +48,7 @@ const TransactionsDisplay = () => {
                 <th className="p-2 text-black text-sm md:text-base lg:text-lg">Date</th>
                 <th className="p-2 text-black text-sm md:text-base lg:text-lg">Status</th>
                 <th className="p-2 text-black text-sm md:text-base lg:text-lg">Amount</th>
+                <th className="p-2 text-black text-sm md:text-base lg:text-lg">Code</th>
               </tr>
             </thead>
             <tbody>
@@ -71,7 +73,7 @@ const TransactionsDisplay = () => {
                       <td className="p-2 text-sm md:text-base lg:text-lg">{formatDate(transaction.date)}</td>
                       <td className="p-2 text-sm md:text-base lg:text-lg">
                         <span
-                          className={`px-2 py-2 rounded-lg text-white ${
+                          className={`w-24 h-10 flex items-center justify-center px-2 py-2 rounded-lg text-white text-center ${
                             transaction.status === "Complete"
                               ? "bg-hover"
                               : transaction.status === "Pending"
@@ -85,6 +87,7 @@ const TransactionsDisplay = () => {
                         </span>
                       </td>
                       <td className="p-2 text-sm md:text-base lg:text-lg">{transaction.amount}</td>
+                      <td className="p-2 text-sm md:text-base lg:text-lg">{transaction.unique_code}</td>
                     </tr>
                   ))
               ) : (

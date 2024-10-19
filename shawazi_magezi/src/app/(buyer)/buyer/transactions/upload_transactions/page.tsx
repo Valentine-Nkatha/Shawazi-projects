@@ -8,9 +8,11 @@ import { postTransaction } from "@/app/utils/postTransaction";
 import { fetchTransaction } from "@/app/utils/fetchTransaction";
 import { formatDate } from "@/app/utils/formatDate";
 import Cookies from "js-cookie"; 
-import SideBarPwa from "@/app/components/Sidebarpwa";
+import BuyerSidebar from "../../components/BuyerSidebar";
+// import SideBarPwa from "@/app/components/Sidebarpwa";
 
 interface Transaction {
+  unique_code:string;
   name: string;
   date: string;
   status: string;
@@ -90,15 +92,17 @@ const TransactionsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
-      <SideBarPwa userRole={""} />
+      <BuyerSidebar/>
       <div className="flex-1 p-4 sm:p-8 lg:p-16 overflow-auto">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-primary text-center">
-          Transactions
-        </h1>
-        <Link href="/transactions/transactions">
-          <IoArrowBackOutline className="border-2 text-black hover:bg-secondary text-[34px] mb-4" />
-        </Link>
-        
+      <div className="relative flex items-center justify-center mb-6">
+  <Link href="/buyer/transactions/transactions">
+    <IoArrowBackOutline className="absolute left-0 border-2 text-black hover:bg-secondary text-[28px] sm:text-[34px] ml-4" />
+  </Link>
+  <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">
+    Transactions
+  </h1>
+</div>
+
         <div className="upload-file-container mb-6 mx-4 sm:mx-8 lg:mx-32">
           <div className="border-2 border-dashed border-gray-300 text-center p-10">
             <h2 className="text-xl mb-2">Upload Files</h2>
@@ -188,6 +192,7 @@ const TransactionsPage: React.FC = () => {
                 <th className="p-2 text-black">Date</th>
                 <th className="p-2 text-black">Status</th>
                 <th className="p-2 text-black">Amount</th>
+                <th className="p-2 text-black">Code</th>
               </tr>
             </thead>
             <tbody>
@@ -200,7 +205,7 @@ const TransactionsPage: React.FC = () => {
                     <td className="p-2">{formatDate(transaction.date)}</td>
                     <td className="p-2">
                       <span
-                        className={`inline-block px-3 py-2 rounded-lg text-white ${
+                        className={`w-24 h-10 flex items-center justify-center px-2 py-2 rounded-lg text-white text-center ${
                           transaction.status === "Complete"
                             ? "bg-hover"
                             : transaction.status === "Pending"
@@ -214,6 +219,7 @@ const TransactionsPage: React.FC = () => {
                       </span>
                     </td>
                     <td className="p-2">{transaction.amount}</td>
+                    <td className="p-2">{transaction.unique_code}</td>
                   </tr>
                 ))
               ) : (

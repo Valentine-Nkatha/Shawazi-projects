@@ -4,11 +4,13 @@ import { formatDate } from "@/app/utils/formatDate";
 import useTransactions from "@/app/hooks/useTransactions";
 import { IoArrowBackOutline } from "react-icons/io5";
 import Link from "next/link";
-import SideBar from '@/app/components/Sidebarpwa';
+import LawyerSidebar from '../../components/LawyerSidebar';
+// import SideBar from '@/app/components/Sidebarpwa';
 
 interface Transaction {
   date: string;
   status: string;
+  unique_code:string;
   amount: string | number;
 }
 
@@ -28,15 +30,16 @@ const Transactionss = () => {
   return (
     <div className="flex flex-col items-center mt-[-50px] p-6 min-h-screen bg-white ml-0 md:ml-48">
       <header className="flex justify-center items-center p-4 w-full max-w-5xl bg-white">
-        <h1 className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary">
+        <h1 className="text-center text-2xl mt-4 sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary">
           Transactions
         </h1>
       </header>
 
       <div className="mb-4 flex flex-wrap items-center justify-center mt-6 w-full gap-8 bg-white">
-        <Link href="/transactions/transactions">
-          <IoArrowBackOutline className="border-2 text-black hover:bg-secondary text-[34px] ml-[-240px]" />
-        </Link>
+        <Link href="/lawyer/transactions/transactions">
+  <IoArrowBackOutline className="border-2 text-black hover:bg-secondary text-[24px] sm:text-[28px] md:text-[34px] ml-0 sm:ml-[-100px] md:ml-[-240px]" />
+</Link>
+
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
@@ -62,6 +65,7 @@ const Transactionss = () => {
               <th className="p-2 text-black text-sm sm:text-base md:text-lg lg:text-xl">Date</th>
               <th className="p-2 text-black text-sm sm:text-base md:text-lg lg:text-xl">Status</th>
               <th className="p-2 text-black text-sm sm:text-base md:text-lg lg:text-xl">Amount</th>
+              <th className="p-2 text-black text-sm sm:text-base md:text-lg lg:text-xl">Code</th>
             </tr>
           </thead>
           <tbody>
@@ -85,7 +89,7 @@ const Transactionss = () => {
                   </td>
                   <td className="p-2">
                     <span
-                      className={`px-2 py-2 rounded-lg text-white text-xs sm:text-sm md:text-base ${
+                      className={`w-24 h-10 flex items-center justify-center px-2 py-2 rounded-lg text-white text-center ${
                         transaction.status === "Complete"
                           ? "bg-hover"
                           : transaction.status === "Pending"
@@ -101,6 +105,9 @@ const Transactionss = () => {
                   <td className="p-2 text-sm sm:text-base md:text-lg lg:text-xl">
                     {transaction.amount}
                   </td>
+                  <td className="p-2 text-sm sm:text-base md:text-lg lg:text-xl">
+                    {transaction.unique_code}
+                  </td>
                 </tr>
               ))
             ) : (
@@ -114,7 +121,7 @@ const Transactionss = () => {
         </table>
       </div>
 
-      <SideBar userRole={""} />
+      <LawyerSidebar/>
     </div>
   );
 };
