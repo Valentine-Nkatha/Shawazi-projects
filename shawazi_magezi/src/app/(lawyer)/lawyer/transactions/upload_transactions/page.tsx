@@ -9,7 +9,7 @@ import { fetchTransaction } from "@/app/utils/fetchTransaction";
 import { formatDate } from "@/app/utils/formatDate";
 import Cookies from "js-cookie"; 
 import LawyerSidebar from "../../components/LawyerSidebar";
-// import SideBarPwa from "@/app/components/Sidebarpwa";
+
 
 interface Transaction {
   unique_code:string;

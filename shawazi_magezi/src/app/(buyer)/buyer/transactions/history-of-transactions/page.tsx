@@ -5,12 +5,11 @@ import useTransactions from "@/app/hooks/useTransactions";
 import { IoArrowBackOutline } from "react-icons/io5";
 import Link from "next/link";
 import BuyerSidebar from '../../components/BuyerSidebar';
-// import SideBar from '@/app/components/Sidebarpwa';
 
 interface Transaction {
   date: string;
   status: string;
-  unique_code:string;
+  unique_code: string;
   amount: string | number;
 }
 
@@ -28,100 +27,92 @@ const Transactionss = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-[-50px] p-6 min-h-screen bg-white ml-0 md:ml-48">
-      <header className="flex justify-center items-center p-4 w-full max-w-5xl bg-white">
-        <h1 className="text-center text-2xl mt-4 sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary">
-          Transactions
-        </h1>
-      </header>
+    <div className="flex flex-col sm:flex-row">
+      <BuyerSidebar />
+      <div className="flex-1 p-2 sm:p-4 min-h-screen bg-white ml-0 md:ml-64 lg:ml-72">
+        <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
+          <header className="py-2 sm:py-4">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary text-center">
+              Transactions
+            </h1>
+          </header>
 
-      <div className="mb-4 flex flex-wrap items-center justify-center mt-6 w-full gap-8 bg-white">
-        <Link href="/buyer/transactions/transactions">
-  <IoArrowBackOutline className="border-2 text-black hover:bg-secondary text-[24px] sm:text-[28px] md:text-[34px] ml-0 sm:ml-[-100px] md:ml-[-240px]" />
-</Link>
+          <div className="flex flex-col gap-3">
+            <Link href="/buyer/transactions/transactions" className="w-fit">
+              <IoArrowBackOutline className="text-xl sm:text-2xl md:text-3xl hover:bg-secondary border-2 p-1" />
+            </Link>
 
-        <select
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-          className="border border-hover px-4 bg-white py-3 rounded-lg w-full sm:w-80 md:w-96"
-        >
-          <option value="">All Statuses</option>
-          <option value="complete">Complete</option>
-          <option value="Pending">Pending</option>
-          <option value="rejected">Rejected</option>
-        </select>
-        <button
-          onClick={handleReset}
-          className="border-hover border-2 text-black px-4 py-1 rounded w-32 hover:bg-secondary"
-        >
-          Reset Filters
-        </button>
-      </div>
+            <div className="flex flex-col gap-3 w-full max-w-[350px]">
+              <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+                className="border border-hover px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg w-full text-sm sm:text-base"
+              >
+                <option value="">All Statuses</option>
+                <option value="Complete">Complete</option>
+                <option value="Pending">Pending</option>
+                <option value="rejected">Rejected</option>
+              </select>
+              
+              <button
+                onClick={handleReset}
+                className="border-hover border-2 text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base hover:bg-secondary w-[180px]"
+              >
+                Reset Filters
+              </button>
+            </div>
+          </div>
 
-      <div className="w-full max-w-5xl mt-10 bg-white">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b">
-              <th className="p-2 text-black text-sm sm:text-base md:text-lg lg:text-xl">Date</th>
-              <th className="p-2 text-black text-sm sm:text-base md:text-lg lg:text-xl">Status</th>
-              <th className="p-2 text-black text-sm sm:text-base md:text-lg lg:text-xl">Amount</th>
-              <th className="p-2 text-black text-sm sm:text-base md:text-lg lg:text-xl">Code</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
-              <tr>
-                <td className="p-2" colSpan={3}>
-                  Loading...
-                </td>
-              </tr>
-            ) : error ? (
-              <tr>
-                <td className="p-2" colSpan={3}>
-                  Error: {error}
-                </td>
-              </tr>
-            ) : filteredTransactions.length > 0 ? (
-              filteredTransactions.map((transaction: Transaction, idx: number) => (
-                <tr key={idx} className="border-b border-primary bg-white">
-                  <td className="p-2 text-sm sm:text-base md:text-lg lg:text-xl">
-                    {formatDate(transaction.date)}
-                  </td>
-                  <td className="p-2">
-                    <span
-                      className={`w-24 h-10 flex items-center justify-center px-2 py-2 rounded-lg text-white text-center ${
-                        transaction.status === "Complete"
-                          ? "bg-hover"
-                          : transaction.status === "Pending"
-                          ? "bg-secondary"
-                          : transaction.status === "rejected"
-                          ? "bg-red-500"
-                          : ""
-                      }`}
-                    >
-                      {transaction.status === "Complete" ? "Complete" : transaction.status}
-                    </span>
-                  </td>
-                  <td className="p-2 text-sm sm:text-base md:text-lg lg:text-xl">
-                    {transaction.amount}
-                  </td>
-                  <td className="p-2 text-sm sm:text-base md:text-lg lg:text-xl">
-                    {transaction.unique_code}
-                  </td>
+          <div className="overflow-x-auto shadow-sm rounded-lg">
+            <table className="w-full text-left border-collapse min-w-[300px] sm:min-w-[500px] bg-white">
+              <thead>
+                <tr className="border-b">
+                  <th className="p-2 sm:p-4 text-xs sm:text-sm md:text-base lg:text-lg">Date</th>
+                  <th className="p-2 sm:p-4 text-xs sm:text-sm md:text-base lg:text-lg">Status</th>
+                  <th className="p-2 sm:p-4 text-xs sm:text-sm md:text-base lg:text-lg">Amount</th>
+                  <th className="p-2 sm:p-4 text-xs sm:text-sm md:text-base lg:text-lg">Code</th>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td className="p-2" colSpan={3}>
-                  No transactions found for the selected filters
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {isLoading ? (
+                  <tr><td colSpan={4} className="p-2 sm:p-4">Loading...</td></tr>
+                ) : error ? (
+                  <tr><td colSpan={4} className="p-2 sm:p-4">Error: {error}</td></tr>
+                ) : filteredTransactions.length > 0 ? (
+                  filteredTransactions.map((transaction: Transaction, idx: number) => (
+                    <tr key={idx} className="border-b border-primary hover:bg-gray-50">
+                      <td className="p-2 sm:p-4 text-xs sm:text-sm md:text-base">
+                        {formatDate(transaction.date)}
+                      </td>
+                      <td className="p-2 sm:p-4">
+                        <span
+                          className={`inline-block px-2 py-0.5 sm:px-3 sm:py-1 rounded-lg text-white text-xs sm:text-sm md:text-base ${
+                            transaction.status === "Complete"
+                              ? "bg-hover"
+                              : transaction.status === "Pending"
+                              ? "bg-secondary"
+                              : "bg-red-500"
+                          }`}
+                        >
+                          {transaction.status}
+                        </span>
+                      </td>
+                      <td className="p-2 sm:p-4 text-xs sm:text-sm md:text-base">
+                        {transaction.amount}
+                      </td>
+                      <td className="p-2 sm:p-4 text-xs sm:text-sm md:text-base">
+                        {transaction.unique_code}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr><td colSpan={4} className="p-2 sm:p-4">No transactions found</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-
-      <BuyerSidebar/>
     </div>
   );
 };

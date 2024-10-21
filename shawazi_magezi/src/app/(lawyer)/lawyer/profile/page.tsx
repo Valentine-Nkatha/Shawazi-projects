@@ -8,7 +8,7 @@ import { AiFillCamera } from "react-icons/ai";
 import Modal from "react-modal";
 import Image from 'next/image';
 import LawyerSidebar from "../components/LawyerSidebar";
-// import BuyerSidebar from "../components/BuyerSidebar";
+
 const Profile = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -67,11 +67,11 @@ const Profile = () => {
   };
   return (
     <div className="flex h-screen">
-      {/* Sidebar */}
+    
       <div className="w-64 h-full">
         <LawyerSidebar/>
       </div>
-      {/* Main Profile Content */}
+     
       <div className="flex-1 flex flex-col items-center p-8 overflow-auto">
         <h2 className="text-4xl font-bold mb-8 text-primary">Profile</h2>
         <div className="w-full max-w-lg flex flex-col items-center">

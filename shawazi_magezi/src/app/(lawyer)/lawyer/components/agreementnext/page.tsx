@@ -224,22 +224,7 @@ const TermsAndConditions: React.FC = () => {
               </div>
             </div>
           ))}
-        {/* {(!getCookie("userRole") || getCookie("userRole") === "buyer") && (
-          <button
-            onClick={() => handleRoleSelection(UserRole.BUYER)}
-            className="mt-4 w-full bg-hover text-white p-2 rounded hover:bg-green-200"
-          >
-            Agree to Terms as Buyer
-          </button>
-        )} */}
-        {/* {(!getCookie("userRole") || getCookie("userRole") === "seller") && (
-          <button
-            onClick={() => handleRoleSelection(UserRole.SELLER)}
-            className="mt-4 w-full bg-hover text-white p-2 rounded hover:bg-green-200"
-          >
-            Agree to Terms as Seller
-          </button>
-        )} */}
+       
         {(!getCookie("userRole") || getCookie("userRole") === "lawyer") && (
           <Link href="/lawyer/lawyer_agree">
             <button

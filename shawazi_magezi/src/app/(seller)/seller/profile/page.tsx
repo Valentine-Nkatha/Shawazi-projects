@@ -8,7 +8,7 @@ import { AiFillCamera } from "react-icons/ai";
 import Modal from "react-modal";
 import Image from 'next/image';
 import SellerSidebar from "../components/SellerSidebar";
-// import BuyerSidebar from "../components/BuyerSidebar";
+
 const Profile = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);

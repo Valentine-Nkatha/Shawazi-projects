@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MdOutlineSettings, MdMenu, MdClose } from "react-icons/md"; // Import hamburger and close icons

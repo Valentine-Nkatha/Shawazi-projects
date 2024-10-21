@@ -1,4 +1,3 @@
-// import SidebarContent from '@/app/SidebarContent/page';
 import SidebarContent from '@/app/SidebarContent/page';
 import React from 'react';
 import { FaHome, FaUser, FaComments, FaFileContract, FaMoneyCheck } from 'react-icons/fa';

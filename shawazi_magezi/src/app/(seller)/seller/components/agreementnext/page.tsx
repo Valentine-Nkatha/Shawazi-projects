@@ -3,12 +3,9 @@ import React, { useState, useEffect } from "react";
 import { getCookie, setCookie } from "cookies-next";
 import { AgreementFormData, Term, UserRole } from "@/app/utils/types";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-// import BuyerSidebar from "../BuyerSidebar";
 import ContractReviewPopup from "@/app/components/Contractreviewpop";
 import SellerSidebar from "../SellerSidebar";
-// import SideBar from "../components/Sidebarpwa";
-// import ContractReviewPopup from "../components/Contractreviewpop";
+
 const TermsAndConditions: React.FC = () => {
   const [agreement, setAgreement] = useState<AgreementFormData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -16,7 +13,7 @@ const TermsAndConditions: React.FC = () => {
   const [checkedTerms, setCheckedTerms] = useState<Record<string, boolean>>({});
   const [showPopup, setShowPopup] = useState(false);
   const [userRole, setUserRole] = useState<UserRole>(UserRole.EMPTY);
-  const [showLawyerView, setShowLawyerView] = useState(false);
+ 
   const router = useRouter();
   useEffect(() => {
     const existingRole = getCookie("userRole");
@@ -145,7 +142,7 @@ const TermsAndConditions: React.FC = () => {
     return <div className="text-center py-4">No agreement found.</div>;
   return (
     <div className="flex">
-      {/* <SideBar userRole={userRole} /> */}
+     
       <SellerSidebar/>
       <div className="p-4 max-w-3xl mx-auto flex-grow">
         <h1 className="text-2xl font-bold mb-4 text-center">
@@ -224,14 +221,7 @@ const TermsAndConditions: React.FC = () => {
               </div>
             </div>
           ))}
-        {/* {(!getCookie("userRole") || getCookie("userRole") === "buyer") && (
-          <button
-            onClick={() => handleRoleSelection(UserRole.BUYER)}
-            className="mt-4 w-full bg-hover text-white p-2 rounded hover:bg-green-200"
-          >
-            Agree to Terms as Buyer
-          </button>
-        )} */}
+        
         {(!getCookie("userRole") || getCookie("userRole") === "seller") && (
           <button
             onClick={() => handleRoleSelection(UserRole.SELLER)}
@@ -240,32 +230,7 @@ const TermsAndConditions: React.FC = () => {
             Agree to Terms as Seller
           </button>
         )}
-        {/* {(!getCookie("userRole") || getCookie("userRole") === "lawyer") && (
-          <Link href="/lawyer/lawyer_agree">
-            <button
-              onClick={() => {
-                handleRoleSelection(UserRole.LAWYER);
-                setShowLawyerView((prev) => !prev);
-              }}
-              className="mt-4 w-full bg-hover text-white p-2 rounded hover:bg-green-200"
-            >
-              {showLawyerView ? "Hide Agreement Status" : "Check Who Agreed"}
-            </button>
-          </Link>
-        )}
-        {showLawyerView && userRole === UserRole.LAWYER && (
-          <div className="mt-4 p-4 border rounded bg-gray-100">
-            <h3 className="font-semibold">Agreement Status:</h3>
-            <p>
-              <strong>Buyer:</strong>{" "}
-              {agreement.buyer_agreed ? "Agreed" : "Not Agreed"}
-            </p>
-            <p>
-              <strong>Seller:</strong>{" "}
-              {agreement.seller_agreed ? "Agreed" : "Not Agreed"}
-            </p>
-          </div>
-        )} */}
+       
         {showPopup && agreement && (
           <ContractReviewPopup
             onClose={handleClosePopup}

@@ -10,7 +10,7 @@ import { UserDatas } from "@/app/utils/types";
 import { Toaster, toast } from "react-hot-toast";
 import { CgProfile } from "react-icons/cg";
 import InviteLawyerModal from "@/app/(lawyer)/lawyer/components/Invite-lawyer";
-import SellerSidebar from "../(seller)/seller/components/SellerSidebar";
+import LawyerSidebar from "../components/LawyerSidebar";
 
 type GetUserType = {
   id: string;
@@ -229,7 +229,7 @@ const ChatRoom: React.FC = () => {
     <div className="flex flex-col md:flex-row h-screen bg-gray-100 font-jost">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-1/4 md:w-1/5 bg-white border-r border-gray-200 shadow-md hidden lg:block">
-        <SellerSidebar/>
+        <LawyerSidebar/>
       </div>
 
       <div className="lg:hidden">
