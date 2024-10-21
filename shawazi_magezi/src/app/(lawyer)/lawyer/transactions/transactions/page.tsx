@@ -4,13 +4,15 @@ import Link from "next/link";
 import useTransactions from "@/app/hooks/useTransactions";
 import LawyerSidebar from "../../components/lawyerSidebar";
 
+
+
 const TransactionsDisplay = () => {
   const { transactions, isLoading, error } = useTransactions();
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
       <div className="w-full md:w-64 lg:w-72 flex-shrink-0">
-       <LawyerSidebar/>
+        <LawyerSidebar/>
       </div>
 
       <div className="flex-1 p-4 md:p-6 lg:p-8 md:pl-8 lg:pl-10">
@@ -41,12 +43,12 @@ const TransactionsDisplay = () => {
 
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[768px]">
-              <thead>
+              <thead className="bg-hover">
                 <tr className="border-b">
-                  <th className="p-3 text-black text-sm md:text-base lg:text-lg">Date</th>
-                  <th className="p-3 text-black text-sm md:text-base lg:text-lg">Status</th>
-                  <th className="p-3 text-black text-sm md:text-base lg:text-lg">Amount</th>
-                  <th className="p-3 text-black text-sm md:text-base lg:text-lg">Code</th>
+                  <th className="p-3 text-white text-sm md:text-base lg:text-lg">Date</th>
+                  <th className="p-3 text-white text-sm md:text-base lg:text-lg">Status</th>
+                  <th className="p-3 text-white text-sm md:text-base lg:text-lg">Amount</th>
+                  <th className="p-3 text-white text-sm md:text-base lg:text-lg">Code</th>
                 </tr>
               </thead>
               <tbody>

@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import LawyerSidebar from "../../components/lawyerSidebar";
 
 
+
 interface Transaction {
   unique_code: string;
   name: string;
@@ -89,7 +90,7 @@ const TransactionsPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
       <div className="lg:w-64 xl:w-72 flex-shrink-0 lg:sticky lg:top-0 lg:h-screen md:border-r md:border-gray-200">
-        <LawyerSidebar/>
+        <LawyerSidebar />
       </div>
       <div className="flex-1 p-4 sm:p-6 md:p-6 lg:p-8 md:pl-8 lg:pl-12 xl:pl-16 overflow-x-hidden md:max-w-[calc(100%-16rem)] lg:max-w-none">
         <div className="relative flex items-center justify-center mb-6 md:mb-8">
@@ -190,12 +191,12 @@ const TransactionsPage: React.FC = () => {
           <div className="overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle">
               <table className="min-w-full text-left text-sm">
-                <thead>
+                <thead className="bg-hover">
                   <tr className="border-b">
-                    <th className="px-4 py-2 font-semibold">Date</th>
-                    <th className="px-4 py-2 font-semibold">Status</th>
-                    <th className="px-4 py-2 font-semibold">Amount</th>
-                    <th className="px-4 py-2 font-semibold">Code</th>
+                    <th className="px-4 text-white py-2 font-semibold">Date</th>
+                    <th className="px-4 py-2 text-white font-semibold">Status</th>
+                    <th className="px-4 py-2 text-white font-semibold">Amount</th>
+                    <th className="px-4 py-2 text-white font-semibold">Code</th>
                   </tr>
                 </thead>
                 <tbody>
