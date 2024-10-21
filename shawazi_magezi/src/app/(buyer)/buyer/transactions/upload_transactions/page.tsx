@@ -30,6 +30,8 @@ const TransactionsPage: React.FC = () => {
   const [agreementId, setAgreementId] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [userType, setUserType] = useState<string>("buyer");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const loadTransactions = async () => {
@@ -75,14 +77,21 @@ const TransactionsPage: React.FC = () => {
     setUserType(selectedUserType);
     Cookies.set("userType", selectedUserType);
   };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
-      <div className="lg:w-60 lg:flex-shrink-0">
+      <div className="lg:w-64 xl:w-72 flex-shrink-0 lg:sticky lg:top-0 lg:h-screen md:border-r md:border-gray-200">
         <BuyerSidebar />
       </div>
-      <div className="flex-1 p-4 sm:p-6 lg:p-8 overflow-x-hidden">
-        <div className="relative flex items-center justify-center mb-6">
+      <div className="flex-1 p-4 sm:p-6 md:p-6 lg:p-8 md:pl-8 lg:pl-12 xl:pl-16 overflow-x-hidden md:max-w-[calc(100%-16rem)] lg:max-w-none">
+        <div className="relative flex items-center justify-center mb-6 md:mb-8">
           <Link
             href="/buyer/transactions/transactions"
             className="absolute left-0 top-1/2 transform -translate-y-1/2"
@@ -93,7 +102,7 @@ const TransactionsPage: React.FC = () => {
             Transactions
           </h1>
         </div>
-        <div className="upload-file-container mb-6 mx-2 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-32">
+        <div className="upload-file-container mb-6 mx-2 sm:mx-4 md:mx-6 lg:mx-8 xl:mx-12">
           <div className="border-2 border-dashed border-gray-300 text-center p-4 sm:p-6 md:p-8 lg:p-10">
             <h2 className="text-lg sm:text-xl md:text-2xl mb-2">
               Upload Files
@@ -152,7 +161,7 @@ const TransactionsPage: React.FC = () => {
           </div>
         </div>
         {userType === "seller" && (
-          <div className="images-container mb-6 mx-2 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-32">
+          <div className="images-container mb-6 mx-2 sm:mx-4 md:mx-6 lg:mx-8 xl:mx-12">
             <h2 className="text-xl sm:text-2xl mb-4">Your Uploaded Images</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {transactions.map((transaction, idx) =>
@@ -240,6 +249,46 @@ const TransactionsPage: React.FC = () => {
           </div>
         )}
       </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-[30px] font-bold text-center">Success</h2>
+            <Image 
+          src="/images/transactions.png" 
+          alt="Secure Land Transactions"
+          width={450}
+          height={450}
+          className="max-w-full h-auto"  
+        />
+            <p className="text-center">{message}</p>
+            <div className="items-center">
+            <button onClick={closeModal} className="mt-4 bg-hover text-white px-4 py-2 rounded hover:bg-secondary">
+              Close
+            </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {isErrorModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-[30px] font-bold text-center">Error</h2>
+            <Image 
+          src="/images/error.png" 
+          alt="Secure Land Transactions"
+          width={450}
+          height={450}
+          className="max-w-full h-auto"  
+        />
+            <p className="text-center">{message}</p>
+            <div className="items-center">
+            <button onClick={closeErrorModal} className="mt-4 bg-red-500 text-white px-4 py-2 rounded">
+              Close
+            </button>
+          </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
