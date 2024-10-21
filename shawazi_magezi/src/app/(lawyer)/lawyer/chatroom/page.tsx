@@ -10,7 +10,7 @@ import { UserDatas } from "@/app/utils/types";
 import { Toaster, toast } from "react-hot-toast";
 import { CgProfile } from "react-icons/cg";
 import InviteLawyerModal from "@/app/(lawyer)/lawyer/components/Invite-lawyer";
-import LawyerSidebar from "../components/LawyerSidebar";
+import LawyerSidebar from "../components/lawyerSidebar";
 
 type GetUserType = {
   id: string;
@@ -87,7 +87,6 @@ const ChatRoom: React.FC = () => {
     }
   }, [loading, users, currentUserRole]);
 
-
   const handleSendMessage = async (
     e:
       | React.FormEvent<HTMLFormElement>
@@ -132,18 +131,21 @@ const ChatRoom: React.FC = () => {
     }
   };
   const filteredMessages = selectedUser
-  ? localMessages.filter((message: MessageType) => {
-      const senderMatch = message.sender?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false;
-      const contentMatch = message.content?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false;
-      
-      return (
-        (message.sender === selectedUser.id ||
-          message.recipientId === selectedUser.id) &&
-        (senderMatch || contentMatch)
-      );
-    })
-  : [];
+    ? localMessages.filter((message: MessageType) => {
+        const senderMatch =
+          message.sender?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+          false;
+        const contentMatch =
+          message.content?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+          false;
 
+        return (
+          (message.sender === selectedUser.id ||
+            message.recipientId === selectedUser.id) &&
+          (senderMatch || contentMatch)
+        );
+      })
+    : [];
 
   const startConversation = (user: GetUserType) => {
     setSelectedUser(user);
@@ -187,7 +189,7 @@ const ChatRoom: React.FC = () => {
         throw new Error("Failed to send invitation");
       }
 
-      toast.success("Invitation sent successfully!"); 
+      toast.success("Invitation sent successfully!");
       handleCloseModal();
     } catch (error) {
       toast.error(
@@ -229,7 +231,7 @@ const ChatRoom: React.FC = () => {
     <div className="flex flex-col md:flex-row h-screen bg-gray-100 font-jost">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-1/4 md:w-1/5 bg-white border-r border-gray-200 shadow-md hidden lg:block">
-        <LawyerSidebar/>
+        <LawyerSidebar />
       </div>
 
       <div className="lg:hidden">
@@ -254,7 +256,9 @@ const ChatRoom: React.FC = () => {
       </div>
 
       <div className="flex-grow flex flex-col md:flex-row">
-        <div className={`w-full md:w-1/4 lg:w-1/3 xl:w-1/4 bg-white p-4 border-r border-gray-200 shadow-md hidden lg:block`}>
+        <div
+          className={`w-full md:w-1/4 lg:w-1/3 xl:w-1/4 bg-white p-4 border-r border-gray-200 shadow-md hidden lg:block`}
+        >
           <div className="mb-4">
             <input
               type="text"
@@ -265,7 +269,10 @@ const ChatRoom: React.FC = () => {
             />
           </div>
           <h2 className="font-semibold mt-4">{getUserListTitle()}</h2>
-          <div className="flex-grow overflow-y-auto mt-2 bg-[#c5daa6]" style={{ maxHeight: '60vh' }}>
+          <div
+            className="flex-grow overflow-y-auto mt-2 bg-[#c5daa6]"
+            style={{ maxHeight: "60vh" }}
+          >
             {availableUsers.length > 0 ? (
               availableUsers.map((user) => (
                 <UserCard
@@ -286,8 +293,14 @@ const ChatRoom: React.FC = () => {
               onClick={() => setIsUserListVisible(!isUserListVisible)}
               className="flex items-center justify-between w-full bg-white border border-gray-300 p-2 rounded-md"
             >
-              <span>{selectedUser ? selectedUser.first_name : getUserListTitle()}</span>
-              <ChevronDown className={`transform transition-transform ${isUserListVisible ? "rotate-180" : ""}`} />
+              <span>
+                {selectedUser ? selectedUser.first_name : getUserListTitle()}
+              </span>
+              <ChevronDown
+                className={`transform transition-transform ${
+                  isUserListVisible ? "rotate-180" : ""
+                }`}
+              />
             </button>
             {isUserListVisible && (
               <div className="absolute z-10 w-full mt-2 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
@@ -310,21 +323,32 @@ const ChatRoom: React.FC = () => {
             )}
           </div>
         </div>
-        
+
         <div className="chat-area flex flex-grow flex-col p-4 bg-white md:w-3/4 lg:w-3/4">
           <div className="flex-grow overflow-y-auto bg-white border p-4 rounded shadow-md chat-messages">
             <h2 className="font-semibold text-2xl mt-12 text-primary ml-0">
               Chat with {selectedUser ? selectedUser.first_name : "..."}
             </h2>
             {filteredMessages.map((message, index) => (
-              <div key={index} className={`my-2 ${message.sender === currentUserName ? "text-right" : "text-left"}`}>
+              <div
+                key={index}
+                className={`my-2 ${
+                  message.sender === currentUserName
+                    ? "text-right"
+                    : "text-left"
+                }`}
+              >
                 <div className="flex items-center justify-end mr-4">
                   <div className="bg-[#D0F1A1] p-7 rounded-lg shadow-md flex items-center">
                     <CgProfile className="text-primary mr-2 text-2xl" />
-                    <span className="font-semibold text-xl">{message.sender}:</span>
+                    <span className="font-semibold text-xl">
+                      {message.sender}:
+                    </span>
                     <span className="text-xl ml-2">{message.content}</span>
                   </div>
-                  <div className="text-gray-500 text-xs ml-2">{formatTime(message.timestamp)}</div>
+                  <div className="text-gray-500 text-xs ml-2">
+                    {formatTime(message.timestamp)}
+                  </div>
                 </div>
               </div>
             ))}
@@ -356,11 +380,17 @@ const ChatRoom: React.FC = () => {
             </button>
           </div>
 
-          {errorMessage && <div className="text-red-600 mt-2">{errorMessage}</div>}
+          {errorMessage && (
+            <div className="text-red-600 mt-2">{errorMessage}</div>
+          )}
         </div>
       </div>
 
-      <InviteLawyerModal open={isModalOpen} onClose={handleCloseModal} onSubmit={handleInviteLawyerSubmit} />
+      <InviteLawyerModal
+        open={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleInviteLawyerSubmit}
+      />
     </div>
   );
 };

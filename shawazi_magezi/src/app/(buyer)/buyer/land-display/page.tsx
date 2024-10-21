@@ -1,25 +1,43 @@
-'use client'
+"use client";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useState } from "react";
 import useDisplayLand from "@/app/hooks/useDisplayLand";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { LandDetails, UserDatas } from "@/app/utils/types";
 import { FaTh, FaList } from "react-icons/fa";
 import LandSearch from "../components/Searchbar";
 import { fetchUsers } from "@/app/utils/fetchUsers";
-import Cookies from 'js-cookie';
-import BuyerSidebar from "../components/BuyerSidebar";
+import Cookies from "js-cookie";
+import BuyerSidebar from "../components/buyerSidebar";
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 const ITEMS_PER_PAGE = 6;
 function LandDetailsList() {
   const [landIds] = useState([
-    "147", "148", "115", "114", "104", "103", "21", "100", "16", "25", "64", "99", "122", "121", "144", "146", "10"
+    "147",
+    "148",
+    "115",
+    "114",
+    "104",
+    "103",
+    "21",
+    "100",
+    "16",
+    "25",
+    "64",
+    "99",
+    "122",
+    "121",
+    "144",
+    "146",
+    "10",
   ]);
   const { landDetailsList, loading, error } = useDisplayLand(landIds);
   const [layoutMode, setLayoutMode] = useState("grid");
   const [currentPage, setCurrentPage] = useState(1);
-  const [loadingStates, setLoadingStates] = useState<{ [key: string]: boolean }>({});
+  const [loadingStates, setLoadingStates] = useState<{
+    [key: string]: boolean;
+  }>({});
   const handleLayoutChange = (mode: SetStateAction<string>) => {
     setLayoutMode(mode);
   };
@@ -66,7 +84,7 @@ function LandDetailsList() {
       };
       console.log("Interest expressed:", {
         landId: land.land_details_id,
-        ...notificationData
+        ...notificationData,
       });
       toast.success("Interest expressed successfully.");
     } catch (error) {
@@ -93,53 +111,75 @@ function LandDetailsList() {
             <h1 className="text-2xl sm:text-3xl font-bold text-[#562B00] mb-6">
               Hello, Welcome to Shawazi
             </h1>
-            <p className="mb-4 text-lg sm:text-xl">Please feel free to carry out your land search</p>
+            <p className="mb-4 text-lg sm:text-xl">
+              Please feel free to carry out your land search
+            </p>
             <LandSearch />
           </div>
           <div className="mb-4 flex justify-between items-center">
             <h2 className="text-xl font-semibold text-[#562B00]">Explore</h2>
             <div className="flex space-x-2 ml-8">
               <FaTh
-                className={`cursor-pointer ${layoutMode === "grid" ? "text-[#508408]" : "text-[#562B00]"}`}
+                className={`cursor-pointer ${
+                  layoutMode === "grid" ? "text-[#508408]" : "text-[#562B00]"
+                }`}
                 onClick={() => handleLayoutChange("grid")}
               />
               <FaList
-                className={`cursor-pointer ${layoutMode === "list" ? "text-[#508408]" : "text-[#562B00]"}`}
+                className={`cursor-pointer ${
+                  layoutMode === "list" ? "text-[#508408]" : "text-[#562B00]"
+                }`}
                 onClick={() => handleLayoutChange("list")}
               />
             </div>
           </div>
           {loading && <p className="text-center">Loading...</p>}
           {error && <p className="text-center text-red-500">Error: {error}</p>}
-          <div className={`${
-            layoutMode === "grid"
-              ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
-              : "flex flex-col space-y-4"
-          }`}>
+          <div
+            className={`${
+              layoutMode === "grid"
+                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
+                : "flex flex-col space-y-4"
+            }`}
+          >
             {currentItems.length > 0
               ? currentItems.map((land: LandDetails) => (
-                  <div key={land.land_details_id} className="border border-gray-300 rounded-lg p-4 shadow-lg">
+                  <div
+                    key={land.land_details_id}
+                    className="border border-gray-300 rounded-lg p-4 shadow-lg"
+                  >
                     {land.latitude && land.longitude ? (
                       <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY!}>
                         <GoogleMap
                           mapContainerStyle={mapContainerStyle}
-                          center={{ lat: parseFloat(land.latitude), lng: parseFloat(land.longitude) }}
+                          center={{
+                            lat: parseFloat(land.latitude),
+                            lng: parseFloat(land.longitude),
+                          }}
                           zoom={12}
                         >
-                          <Marker position={{ lat: parseFloat(land.latitude), lng: parseFloat(land.longitude) }} />
+                          <Marker
+                            position={{
+                              lat: parseFloat(land.latitude),
+                              lng: parseFloat(land.longitude),
+                            }}
+                          />
                         </GoogleMap>
                       </LoadScript>
                     ) : (
                       <p>Location information is not available.</p>
                     )}
                     <p className="mt-4">
-                      <span className="font-semibold">Owner:</span> {land.owner_name}
+                      <span className="font-semibold">Owner:</span>{" "}
+                      {land.owner_name}
                     </p>
                     <p>
-                      <span className="font-semibold">Location Name:</span> {land.location_name}
+                      <span className="font-semibold">Location Name:</span>{" "}
+                      {land.location_name}
                     </p>
                     <p>
-                      <span className="font-semibold">Address:</span> {land.address}
+                      <span className="font-semibold">Address:</span>{" "}
+                      {land.address}
                     </p>
                     <button
                       onClick={() => handleInterestClick(land)}
@@ -150,20 +190,34 @@ function LandDetailsList() {
                     {loadingStates[land.land_details_id] && <p>Loading...</p>}
                   </div>
                 ))
-              : !loading && <p className="col-span-full text-center">No land details available.</p>}
+              : !loading && (
+                  <p className="col-span-full text-center">
+                    No land details available.
+                  </p>
+                )}
           </div>
           <div className="flex justify-between mt-4">
             <button
               onClick={handlePrevPage}
-              className={`px-3 py-1.5 rounded-md ${currentPage === 1 ? "bg-[#562B00] text-white cursor-not-allowed" : "bg-[#508408] text-white hover:bg-green-700"}`}
+              className={`px-3 py-1.5 rounded-md ${
+                currentPage === 1
+                  ? "bg-[#562B00] text-white cursor-not-allowed"
+                  : "bg-[#508408] text-white hover:bg-green-700"
+              }`}
               disabled={currentPage === 1}
             >
               Previous
             </button>
-            <span className="self-center text-lg">Page {currentPage} of {totalPages}</span>
+            <span className="self-center text-lg">
+              Page {currentPage} of {totalPages}
+            </span>
             <button
               onClick={handleNextPage}
-              className={`px-3 py-1.5 rounded-md ${currentPage === totalPages ? "bg-[#562B00] text-white cursor-not-allowed" : "bg-[#508408] text-white hover:bg-green-700"}`}
+              className={`px-3 py-1.5 rounded-md ${
+                currentPage === totalPages
+                  ? "bg-[#562B00] text-white cursor-not-allowed"
+                  : "bg-[#508408] text-white hover:bg-green-700"
+              }`}
               disabled={currentPage === totalPages}
             >
               Next
@@ -176,38 +230,6 @@ function LandDetailsList() {
   );
 }
 export default LandDetailsList;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 'use client'
 // import { ToastContainer, toast } from "react-toastify";

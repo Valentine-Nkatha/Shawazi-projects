@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 // import BuyerSidebar from "../BuyerSidebar";
 import ContractReviewPopup from "@/app/components/Contractreviewpop";
-import LawyerSidebar from "../LawyerSidebar";
+import LawyerSidebar from "../lawyerSidebar";
 // import SideBar from "../components/Sidebarpwa";
 // import ContractReviewPopup from "../components/Contractreviewpop";
 const TermsAndConditions: React.FC = () => {
@@ -146,59 +146,65 @@ const TermsAndConditions: React.FC = () => {
   return (
     <div className="flex">
       {/* <SideBar userRole={userRole} /> */}
-      <LawyerSidebar/>
+      <LawyerSidebar />
       <div className="p-4 max-w-3xl mx-auto flex-grow">
         <h1 className="text-2xl font-bold mb-4 text-center">
           Terms And Conditions
         </h1>
         <div className="mb-6 p-6 border rounded gap-x-10">
-  <h2 className="text-lg font-semibold">Agreement Details</h2>
-  <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
-    <p className="flex-1 text-white">
-      <strong>Parcel Number:</strong> {agreement.parcel_number}
-    </p>
-  </div>
-  <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
-    <p className="flex-1 text-white">
-      <strong>Date Created:</strong> {new Date(agreement.date_created).toLocaleDateString()}
-    </p>
-  </div>
-  <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
-    <p className="flex-1 text-white">
-      <strong>Contract Duration:</strong> {agreement.contract_duration} months
-    </p>
-  </div>
-  <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
-    <p className="flex-1 text-white">
-      <strong>Agreed Amount:</strong> Ksh {agreement.agreed_amount}
-    </p>
-  </div>
-  <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
-    <p className="flex-1 text-white">
-      <strong>Installment Schedule:</strong> {agreement.installment_schedule} months
-    </p>
-  </div>
-  <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
-    <p className="flex-1 text-white">
-      <strong>Penalties Interest Rate:</strong> {agreement.penalties_interest_rate}%
-    </p>
-  </div>
-  <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
-    <p className="flex-1 text-white">
-      <strong>Down Payment:</strong> Ksh {agreement.down_payment}
-    </p>
-  </div>
-  <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
-    <p className="flex-1 text-white">
-      <strong>Remaining Amount:</strong> Ksh {agreement.remaining_amount}
-    </p>
-  </div>
-  <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
-    <p className="flex-1 text-white">
-      <strong>Total Amount Made:</strong> Ksh {agreement.total_amount_made}
-    </p>
-  </div>
-</div>
+          <h2 className="text-lg font-semibold">Agreement Details</h2>
+          <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
+            <p className="flex-1 text-white">
+              <strong>Parcel Number:</strong> {agreement.parcel_number}
+            </p>
+          </div>
+          <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
+            <p className="flex-1 text-white">
+              <strong>Date Created:</strong>{" "}
+              {new Date(agreement.date_created).toLocaleDateString()}
+            </p>
+          </div>
+          <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
+            <p className="flex-1 text-white">
+              <strong>Contract Duration:</strong> {agreement.contract_duration}{" "}
+              months
+            </p>
+          </div>
+          <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
+            <p className="flex-1 text-white">
+              <strong>Agreed Amount:</strong> Ksh {agreement.agreed_amount}
+            </p>
+          </div>
+          <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
+            <p className="flex-1 text-white">
+              <strong>Installment Schedule:</strong>{" "}
+              {agreement.installment_schedule} months
+            </p>
+          </div>
+          <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
+            <p className="flex-1 text-white">
+              <strong>Penalties Interest Rate:</strong>{" "}
+              {agreement.penalties_interest_rate}%
+            </p>
+          </div>
+          <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
+            <p className="flex-1 text-white">
+              <strong>Down Payment:</strong> Ksh {agreement.down_payment}
+            </p>
+          </div>
+          <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
+            <p className="flex-1 text-white">
+              <strong>Remaining Amount:</strong> Ksh{" "}
+              {agreement.remaining_amount}
+            </p>
+          </div>
+          <div className="flex justify-between items-center my-4 bg-customGreen shadow p-4 rounded">
+            <p className="flex-1 text-white">
+              <strong>Total Amount Made:</strong> Ksh{" "}
+              {agreement.total_amount_made}
+            </p>
+          </div>
+        </div>
         {agreement.terms &&
           agreement.terms.map((term: Term) => (
             <div
@@ -224,7 +230,7 @@ const TermsAndConditions: React.FC = () => {
               </div>
             </div>
           ))}
-       
+
         {(!getCookie("userRole") || getCookie("userRole") === "lawyer") && (
           <Link href="/lawyer/lawyer_agree">
             <button

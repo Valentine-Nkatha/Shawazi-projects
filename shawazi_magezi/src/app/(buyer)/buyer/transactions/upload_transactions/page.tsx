@@ -8,7 +8,7 @@ import { postTransaction } from "@/app/utils/postTransaction";
 import { fetchTransaction } from "@/app/utils/fetchTransaction";
 import { formatDate } from "@/app/utils/formatDate";
 import Cookies from "js-cookie";
-import BuyerSidebar from "../../components/BuyerSidebar";
+import BuyerSidebar from "../../components/buyerSidebar";
 
 interface Transaction {
   unique_code: string;
@@ -29,8 +29,6 @@ const TransactionsPage: React.FC = () => {
   const [image, setImage] = useState<File | null>(null);
   const [agreementId, setAgreementId] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState<boolean>(false);
   const [userType, setUserType] = useState<string>("buyer");
 
   useEffect(() => {
@@ -65,12 +63,10 @@ const TransactionsPage: React.FC = () => {
       setMessage(`Transaction successful: ${data.message}`);
       setImage(null);
       setAgreementId("");
-      setIsModalOpen(true);
     } catch (error) {
       const errorMessage =
         (error as Error).message || "An unknown error occurred";
       setMessage(`Error: ${errorMessage}`);
-      setIsErrorModalOpen(true);
     }
   };
 
@@ -80,14 +76,6 @@ const TransactionsPage: React.FC = () => {
     Cookies.set("userType", selectedUserType);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const closeErrorModal = () => {
-    setIsErrorModalOpen(false);
-  };
-
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
       <div className="lg:w-60 lg:flex-shrink-0">
@@ -95,7 +83,10 @@ const TransactionsPage: React.FC = () => {
       </div>
       <div className="flex-1 p-4 sm:p-6 lg:p-8 overflow-x-hidden">
         <div className="relative flex items-center justify-center mb-6">
-          <Link href="/buyer/transactions/transactions" className="absolute left-0 top-1/2 transform -translate-y-1/2">
+          <Link
+            href="/buyer/transactions/transactions"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2"
+          >
             <IoArrowBackOutline className="border-2 text-black hover:bg-secondary text-[20px] sm:text-[24px] md:text-[28px] ml-2 sm:ml-4" />
           </Link>
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary pl-10 sm:pl-5">
@@ -104,7 +95,9 @@ const TransactionsPage: React.FC = () => {
         </div>
         <div className="upload-file-container mb-6 mx-2 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-32">
           <div className="border-2 border-dashed border-gray-300 text-center p-4 sm:p-6 md:p-8 lg:p-10">
-            <h2 className="text-lg sm:text-xl md:text-2xl mb-2">Upload Files</h2>
+            <h2 className="text-lg sm:text-xl md:text-2xl mb-2">
+              Upload Files
+            </h2>
             <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-2">
               Add photo receipts for your transactions
             </p>
@@ -170,7 +163,9 @@ const TransactionsPage: React.FC = () => {
                       alt={`Uploaded image for transaction ${idx + 1}`}
                       className="w-full h-auto rounded-md"
                     />
-                    <p className="mt-2 text-xs sm:text-sm">Uploaded on: {formatDate(transaction.date)}</p>
+                    <p className="mt-2 text-xs sm:text-sm">
+                      Uploaded on: {formatDate(transaction.date)}
+                    </p>
                   </div>
                 ) : null
               )}
@@ -196,33 +191,45 @@ const TransactionsPage: React.FC = () => {
                 <tbody>
                   {transactions.length > 0 ? (
                     transactions
-                      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                      .sort(
+                        (a, b) =>
+                          new Date(b.date).getTime() -
+                          new Date(a.date).getTime()
+                      )
                       .slice(0, 4)
                       .map((transaction, idx) => (
                         <tr key={idx} className="border-b">
-                          <td className="px-4 py-2 whitespace-nowrap">{formatDate(transaction.date)}</td>
-                          <td className="px-4 py-2">
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            {formatDate(transaction.date)}
+                          </td>
+                          <td className="p-1 xs:p-2">
                             <span
                               className={`w-16 xs:w-20 sm:w-24 h-6 xs:h-8 sm:h-10 flex items-center justify-center px-1 xs:px-2 py-0.5 xs:py-1 rounded-lg text-white text-xs xs:text-sm md:text-base ${
                                 transaction.status === "Complete"
-                                ? "bg-hover"
-                                : transaction.status === "Pending"
-                                ? "bg-secondary"
-                                : transaction.status === "rejected"
-                                ? "bg-red-500"
-                                : ""
+                                  ? "bg-hover"
+                                  : transaction.status === "Pending"
+                                  ? "bg-secondary"
+                                  : transaction.status === "rejected"
+                                  ? "bg-red-500"
+                                  : ""
                               }`}
                             >
-                              {transaction.status}
+                              {transaction.status === "Complete"
+                                ? "Complete"
+                                : transaction.status}
                             </span>
                           </td>
-                          <td className="px-4 py-2 whitespace-nowrap">{transaction.amount}</td>
-                          <td className="px-4 py-2 whitespace-nowrap">{transaction.unique_code}</td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            {transaction.amount}
+                          </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            {transaction.unique_code}
+                          </td>
                         </tr>
                       ))
                   ) : (
                     <tr>
-                      <td colSpan={4} className="px-4 py-2 text-gray-500">
+                      <td colSpan={4} className="px-4 py-2 text-center">
                         No transactions available.
                       </td>
                     </tr>

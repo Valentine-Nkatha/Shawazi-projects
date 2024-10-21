@@ -4,7 +4,7 @@ import { CheckCircle, Settings, Shield } from "lucide-react";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
-import LawyerSidebar from "../components/LawyerSidebar";
+import LawyerSidebar from "../components/lawyerSidebar";
 
 const WelcomeSection = () => {
   const [userData, setUserData] = useState({
@@ -16,7 +16,6 @@ const WelcomeSection = () => {
     csrftoken: "",
   });
 
- 
   const useData = () => {
     useEffect(() => {
       const fetchUserData = () => {
@@ -43,22 +42,19 @@ const WelcomeSection = () => {
     return userData;
   };
 
- 
   useData();
 
   return (
     <div className="flex min-h-screen bg-white">
-    
       <div className="w-[20%]">
         <LawyerSidebar />
       </div>
-   
+
       <div className="flex flex-col flex-grow p-4 md:p-8 text-center w-[80%]">
         <h1 className="text-3xl md:text-4xl lg:text-4xl font-semibold text-gray-800 mt-6 md:mt-10 mb-6 md:mb-8">
           Welcome to The Shawazi Application
         </h1>
         <div className="flex flex-col md:flex-row mt-4 md:mt-6 items-center md:items-start gap-10 md:gap-20 lg:gap-32">
-          
           <div className="w-full md:w-1/2 flex justify-center">
             <Image
               src="/media/low.png"

@@ -6,8 +6,9 @@ import { IoPersonSharp } from "react-icons/io5";
 import { MdDelete, MdClose } from "react-icons/md";
 import { AiFillCamera } from "react-icons/ai";
 import Modal from "react-modal";
-import Image from 'next/image';
-import BuyerSidebar from "../components/BuyerSidebar";
+import Image from "next/image";
+import BuyerSidebar from "../components/buyerSidebar";
+
 const Profile = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -65,12 +66,8 @@ const Profile = () => {
     setModalIsOpen(false);
   };
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <div className="w-64 h-full">
-        <BuyerSidebar />
-      </div>
-      {/* Main Profile Content */}
+    <div className="flex flex-col lg:flex-row mt-[5%] min-h-screen">
+      <BuyerSidebar />
       <div className="flex-1 flex flex-col items-center p-8 overflow-auto">
         <h2 className="text-4xl font-bold mb-8 text-primary">Profile</h2>
         <div className="w-full max-w-lg flex flex-col items-center">
@@ -124,7 +121,9 @@ const Profile = () => {
               </div>
               <button
                 onClick={() => {
-                  const fileUploadElement = document.getElementById("file-upload") as HTMLInputElement | null;
+                  const fileUploadElement = document.getElementById(
+                    "file-upload"
+                  ) as HTMLInputElement | null;
                   if (fileUploadElement) {
                     fileUploadElement.click();
                   }
@@ -152,15 +151,26 @@ const Profile = () => {
               )}
             </Modal>
           )}
+          {/* </div> */}
           <div className="space-y-6 w-full mt-10">
             {Object.entries(formData).map(([key, value]) => (
               <div key={key} className="flex items-center mb-4">
                 <span className="text-primary text-xl flex items-center">
-                  {key === "firstName" && <IoPersonSharp className="inline w-6 h-6 mr-2" />}
-                  {key === "lastName" && <IoPersonSharp className="inline w-6 h-6 mr-2" />}
-                  {key === "phoneNumber" && <FaPhoneAlt className="inline w-6 h-5 mr-2" />}
-                  {key === "role" && <FaUserTie className="inline w-6 h-6 mr-2" />}
-                  {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1")}:
+                  {key === "firstName" && (
+                    <IoPersonSharp className="inline w-6 h-6 mr-2" />
+                  )}
+                  {key === "lastName" && (
+                    <IoPersonSharp className="inline w-6 h-6 mr-2" />
+                  )}
+                  {key === "phoneNumber" && (
+                    <FaPhoneAlt className="inline w-6 h-5 mr-2" />
+                  )}
+                  {key === "role" && (
+                    <FaUserTie className="inline w-6 h-6 mr-2" />
+                  )}
+                  {key.charAt(0).toUpperCase() +
+                    key.slice(1).replace(/([A-Z])/g, " $1")}
+                  :
                 </span>
                 {isEditing ? (
                   <input
@@ -188,6 +198,7 @@ const Profile = () => {
               >
                 Save
               </button>
+              {/* </div> */}
             </div>
           </div>
         </div>
@@ -196,9 +207,3 @@ const Profile = () => {
   );
 };
 export default Profile;
-
-
-
-
-
-

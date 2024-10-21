@@ -1,27 +1,22 @@
-"use client"
+"use client";
 import { FC, useEffect, useState, useCallback } from "react";
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-
 interface Location {
   lat: number;
   lng: number;
 }
-
 const defaultCenter = {
   lat: 0,
   lng: 0
 };
-
 const containerStyle = {
-  width: '80%',
-  height: '300px'
+  width: '100%',
+  height: '400px'
 };
-
 const LocationMap: FC = () => {
   const [currentLocation, setCurrentLocation] = useState<Location>(defaultCenter);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -42,12 +37,10 @@ const LocationMap: FC = () => {
       setIsLoading(false);
     }
   }, []);
-
   const onLoad = useCallback((map: google.maps.Map) => {
     const bounds = new window.google.maps.LatLngBounds(currentLocation);
     map.fitBounds(bounds);
   }, [currentLocation]);
-
   if (isLoading) {
     return (
       <div className="w-full h-[400px] flex items-center justify-center bg-gray-100 rounded-lg">
@@ -55,7 +48,6 @@ const LocationMap: FC = () => {
       </div>
     );
   }
-
   if (error) {
     return (
       <div className="w-full h-[400px] flex items-center justify-center bg-gray-100 rounded-lg">
@@ -63,15 +55,20 @@ const LocationMap: FC = () => {
       </div>
     );
   }
-
   return (
-    <div className="w-full rounded-lg overflow-hidden shadow-lg">
+    <div className="w-full rounded-lg overflow-hidden lg:z-0">
       <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}>
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={currentLocation}
           zoom={15}
           onLoad={onLoad}
+          options={{
+            zoomControl: true,
+            streetViewControl: false,
+            mapTypeControl: false,
+            fullscreenControl: true,
+          }}
         >
           <Marker position={currentLocation} />
         </GoogleMap>
@@ -79,5 +76,4 @@ const LocationMap: FC = () => {
     </div>
   );
 };
-
-export default LocationMap
+export default LocationMap;

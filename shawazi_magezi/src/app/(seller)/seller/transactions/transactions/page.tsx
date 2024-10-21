@@ -4,15 +4,15 @@ import Link from "next/link";
 import useTransactions from "@/app/hooks/useTransactions";
 
 import ProgressBar from "@/app/components/Progressbar";
-import SellerSidebar from "../../components/SellerSidebar";
-// import SideBarPwa from "@/app/components/Sidebarpwa";
+import SellerSidebar from "../../components/sellerSidebar";
+
 
 const TransactionsDisplay = () => {
   const { transactions, isLoading, error } = useTransactions();
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
-     <SellerSidebar/>
+      <SellerSidebar />
 
       <div className="flex-grow p-6 md:mr-4 lg:mr-0">
         <header className="flex justify-center items-center p-4 w-full max-w-5xl">
@@ -45,10 +45,18 @@ const TransactionsDisplay = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b">
-                <th className="p-2 text-black text-sm md:text-base lg:text-lg">Date</th>
-                <th className="p-2 text-black text-sm md:text-base lg:text-lg">Status</th>
-                <th className="p-2 text-black text-sm md:text-base lg:text-lg">Amount</th>
-                <th className="p-2 text-black text-sm md:text-base lg:text-lg">Code</th>
+                <th className="p-2 text-black text-sm md:text-base lg:text-lg">
+                  Date
+                </th>
+                <th className="p-2 text-black text-sm md:text-base lg:text-lg">
+                  Status
+                </th>
+                <th className="p-2 text-black text-sm md:text-base lg:text-lg">
+                  Amount
+                </th>
+                <th className="p-2 text-black text-sm md:text-base lg:text-lg">
+                  Code
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -66,11 +74,16 @@ const TransactionsDisplay = () => {
                 </tr>
               ) : transactions.length > 0 ? (
                 transactions
-                  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                  .sort(
+                    (a, b) =>
+                      new Date(b.date).getTime() - new Date(a.date).getTime()
+                  )
                   .slice(0, 5)
                   .map((transaction, idx) => (
                     <tr key={idx} className="border-b border-primary">
-                      <td className="p-2 text-sm md:text-base lg:text-lg">{formatDate(transaction.date)}</td>
+                      <td className="p-2 text-sm md:text-base lg:text-lg">
+                        {formatDate(transaction.date)}
+                      </td>
                       <td className="p-2 text-sm md:text-base lg:text-lg">
                         <span
                           className={`w-24 h-10 flex items-center justify-center px-2 py-2 rounded-lg text-white text-center ${
@@ -83,11 +96,17 @@ const TransactionsDisplay = () => {
                               : ""
                           }`}
                         >
-                          {transaction.status === "Complete" ? "Complete" : transaction.status}
+                          {transaction.status === "Complete"
+                            ? "Complete"
+                            : transaction.status}
                         </span>
                       </td>
-                      <td className="p-2 text-sm md:text-base lg:text-lg">{transaction.amount}</td>
-                      <td className="p-2 text-sm md:text-base lg:text-lg">{transaction.unique_code}</td>
+                      <td className="p-2 text-sm md:text-base lg:text-lg">
+                        {transaction.amount}
+                      </td>
+                      <td className="p-2 text-sm md:text-base lg:text-lg">
+                        {transaction.unique_code}
+                      </td>
                     </tr>
                   ))
               ) : (

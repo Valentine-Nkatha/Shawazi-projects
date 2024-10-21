@@ -1,8 +1,8 @@
 "use client";
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import SellerSidebar from '../components/SellerSidebar';
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import SellerSidebar from "../components/sellerSidebar";
 // import BuyerSidebar from '../components/BuyerSidebar';
 const ChatRoomPage = () => {
   return (
@@ -10,14 +10,18 @@ const ChatRoomPage = () => {
       {/* Sidebar */}
       <div className="w-[20%]">
         {/* <BuyerSidebar /> */}
-        <SellerSidebar/>
+        <SellerSidebar />
       </div>
       {/* Main Content */}
       <div className="flex flex-col items-center justify-start text-center mb-10 p-4 w-[80%]">
         <div className="items-center mb-[5%]">
-          <h1 className="text-[28px] font-bold text-primary text-center md:text-[32px] lg:text-[36px]">ChatRoom</h1>
+          <h1 className="text-[28px] font-bold text-primary text-center md:text-[32px] lg:text-[36px]">
+            ChatRoom
+          </h1>
         </div>
-        <p className="text-primary text-[18px] mb-6 md:text-[20px] lg:text-[22px]">Hello, you have no new messages</p>
+        <p className="text-primary text-[18px] mb-6 md:text-[20px] lg:text-[22px]">
+          Hello, you have no new messages
+        </p>
         <div className="p-4 mb-6">
           <div className="flex items-center justify-center">
             <div className="mb-6">
@@ -41,6 +45,3 @@ const ChatRoomPage = () => {
   );
 };
 export default ChatRoomPage;
-
-
-

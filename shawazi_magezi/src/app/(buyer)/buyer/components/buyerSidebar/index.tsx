@@ -1,5 +1,5 @@
-import SidebarContent from '@/app/SidebarContent/page';
-import React from 'react';
+// import SidebarContent from '@/app/sidebarcontent/page';
+import SidebarContent from '@/app/components/sidebarcontent';
 import { FaHome, FaUser, FaComments, FaFileContract, FaMoneyCheck } from 'react-icons/fa';
 
 const BuyerSidebar: React.FC = () => {

@@ -1,19 +1,16 @@
 "use client";
-
 import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { Transaction } from "@/app/utils/types";
 import SellerNotifications from "@/app/components/Notificationbell";
-import SellerSidebar from "../components/SellerSidebar";
+import SellerSidebar from "../components/sellerSidebar";
 import LocationMap from "../components/LocationMap";
-
 const SellerPage: FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoadingTransactions, setIsLoadingTransactions] = useState(true);
   const [errorTransactions, setErrorTransactions] = useState<string | null>(
     null
   );
-
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -32,10 +29,8 @@ const SellerPage: FC = () => {
         setIsLoadingTransactions(false);
       }
     };
-
     fetchTransactions();
   }, []);
-
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
@@ -44,48 +39,50 @@ const SellerPage: FC = () => {
     };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
-
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen mt-10">
-      {/* <SideBar userRole={""} /> */}
+    <div className="flex flex-col lg:flex-row min-h-screen">
+      <div className="lg:fixed lg:left-0 lg:top-0 lg:h-full mr-42 lg:w-64">
+        {/* <SellerSidebar /> */}
+      </div>
       <SellerSidebar />
-
-      <div className="flex-1 p-4 sm:p-6 lg:p-8">
+      <div className="flex-1 lg:ml-[16rem] mr-1 p-4 sm:p-6 lg:p-8">
         <div className="flex justify-end mb-4">
           <SellerNotifications />
         </div>
-
         <header className="mb-8">
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-primary">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl mt-20 font-semibold text-primary">
             Hello, Welcome to Shawazi
           </h2>
         </header>
-
-        <section className="mb-8">
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Link href="/chatroom" className="block">
+            <button className="bg-yellow-500 w-full lg:h-40 h-20 text-lg sm:text-xl text-white py-4 px-4 rounded-md shadow-lg hover:bg-yellow-600 transition-colors">
+              Go to chats
+            </button>
+          </Link>
+          <Link href="/transactions/upload_transactions" className="block">
+            <button className="bg-yellow-500 w-full lg:h-40 h-20 text-lg sm:text-xl text-white py-4 px-4 rounded-md shadow-lg hover:bg-yellow-600 transition-colors">
+              Upload receipt of payment
+            </button>
+          </Link>
+          <Link href="/profile" className="block">
+            <button className="bg-yellow-500 w-full lg:h-40 h-20 text-lg sm:text-xl text-white py-4 px-4 rounded-md shadow-lg hover:bg-yellow-600 transition-colors">
+              View Profile
+            </button>
+          </Link>
+        </section>
+        {/* <section className="mb-8 mt-10">
+          <h2 className="text-xl sm:text-xl lg:text-2xl font-semibold text-primary mb-4">
+            Your Current Area
+          </h2>
+          <LocationMap />
+        </section> */}
+        <section className="mb-8 mt-10 your-current-area-section">
           <h2 className="text-xl sm:text-xl lg:text-2xl font-semibold text-primary mb-4">
             Your Current Area
           </h2>
           <LocationMap />
         </section>
-
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Link href="/chatroom" className="block">
-            <button className="bg-yellow-500 w-full lg:h-40 sm:h-10 text-lg sm:text-xl text-white py-4 sm:py-6 px-2 sm:px-4 rounded-md shadow-lg hover:bg-yellow-600 transition-colors">
-              Go to chats
-            </button>
-          </Link>
-          <Link href="/transactions/upload_transactions" className="block">
-            <button className="bg-yellow-500 w-full lg:h-40 sm:h-10 text-lg sm:text-xl text-white py-4 sm:py-6 px-2 sm:px-4 rounded-md shadow-lg hover:bg-yellow-600 transition-colors">
-              Upload receipt of payment
-            </button>
-          </Link>
-          <Link href="/profile" className="block">
-            <button className="bg-yellow-500 w-full lg:h-40 sm:h-10  text-lg sm:text-xl text-white py-4 sm:py-6 px-2 sm:px-4 rounded-md shadow-lg hover:bg-yellow-600 transition-colors">
-              View Profile
-            </button>
-          </Link>
-        </section>
-
         <section>
           <h3 className="text-lg sm:text-xl mt-10">Recent Transactions</h3>
           <table className="w-full text-left border-collapse mb-8">
@@ -162,5 +159,4 @@ const SellerPage: FC = () => {
     </div>
   );
 };
-
 export default SellerPage;
