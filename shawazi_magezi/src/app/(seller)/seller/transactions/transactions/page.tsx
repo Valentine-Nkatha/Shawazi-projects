@@ -3,9 +3,7 @@ import { formatDate } from "@/app/utils/formatDate";
 import Link from "next/link";
 import useTransactions from "@/app/hooks/useTransactions";
 
-import ProgressBar from "@/app/components/Progressbar";
-import SellerSidebar from "../../components/sellerSidebar";
-
+import SellerSidebar from "../../components/Sellersidebar";
 
 const TransactionsDisplay = () => {
   const { transactions, isLoading, error } = useTransactions();
@@ -20,8 +18,6 @@ const TransactionsDisplay = () => {
             Transactions
           </h1>
         </header>
-
-        <ProgressBar />
 
         <div className="w-full max-w-5xl mt-20 mx-auto">
           <div className="flex flex-col md:flex-row justify-between mb-4">

@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import SellerSidebar from "../components/sellerSidebar";
+import SellerSidebar from "../components/Sellersidebar";
 // import BuyerSidebar from '../components/BuyerSidebar';
 const ChatRoomPage = () => {
   return (
@@ -35,7 +35,7 @@ const ChatRoomPage = () => {
             </div>
           </div>
         </div>
-        <Link href="/chatroom">
+        <Link href="/seller/chatroom">
           <button className="bg-foreground text-white py-2 px-6 rounded-lg hover:bg-white hover:text-foreground hover:border border-foreground transition duration-300 text-[18px] md:text-[20px] lg:text-[22px]">
             Start Chat
           </button>

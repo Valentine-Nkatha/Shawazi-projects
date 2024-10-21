@@ -1,5 +1,5 @@
 // import SidebarContent from '@/app/sidebarcontent/page';
-import SidebarContent from '@/app/components/sidebarcontent';
+import SidebarContent from '@/app/components/Sidebarcontent';
 import React from 'react';
 import { FaHome, FaUser, FaComments, FaFileContract, FaMoneyCheck } from 'react-icons/fa';
 

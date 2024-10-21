@@ -145,7 +145,6 @@ const TermsAndConditions: React.FC = () => {
     return <div className="text-center py-4">No agreement found.</div>;
   return (
     <div className="flex">
-      {/* <SideBar userRole={userRole} /> */}
       <LawyerSidebar />
       <div className="p-4 max-w-3xl mx-auto flex-grow">
         <h1 className="text-2xl font-bold mb-4 text-center">

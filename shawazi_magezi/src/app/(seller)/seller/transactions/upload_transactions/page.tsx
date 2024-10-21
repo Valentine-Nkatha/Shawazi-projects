@@ -8,8 +8,7 @@ import { postTransaction } from "@/app/utils/postTransaction";
 import { fetchTransaction } from "@/app/utils/fetchTransaction";
 import { formatDate } from "@/app/utils/formatDate";
 import Cookies from "js-cookie";
-import SellerSidebar from "../../components/sellerSidebar";
-
+import SellerSidebar from "../../components/Sellersidebar";
 
 interface Transaction {
   unique_code: string;

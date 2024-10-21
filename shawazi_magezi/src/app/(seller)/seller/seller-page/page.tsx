@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { Transaction } from "@/app/utils/types";
 import SellerNotifications from "@/app/components/Notificationbell";
-import SellerSidebar from "../components/sellerSidebar";
+import SellerSidebar from "../components/Sellersidebar";
 import LocationMap from "../components/LocationMap";
 const SellerPage: FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);

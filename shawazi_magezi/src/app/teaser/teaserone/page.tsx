@@ -53,7 +53,7 @@ const SecureLandTransactions = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
       <div className="mb-0 ">
         <Image 
-          src="/images/transactions.png" 
+          src="/images/secure.jpg" 
           alt="Secure Land Transactions"
           width={500}
           height={700}
@@ -85,9 +85,8 @@ const SecureLandTransactions = () => {
         </Link>
       </div>
 
-      <div className="flex space-x-4 mt-5">
+      <div className="flex space-x-6 mt-5">
         <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-        <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
         <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
       </div>
     </div>

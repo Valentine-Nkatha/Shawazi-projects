@@ -29,7 +29,7 @@ const ChatRoomPage = () => {
             </div>
           </div>
         </div>
-        <Link href="/chatroom" className="w-full">
+        <Link href="/buyer/chatroom" className="w-full">
           <button className="bg-foreground text-white w-full py-2 rounded-lg hover:bg-white hover:text-foreground hover:border border-foreground transition duration-300 text-[18px] md:text-[20px] lg:text-[22px]">
             Start Chat
           </button>

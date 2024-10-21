@@ -4,7 +4,7 @@ import { getCookie, setCookie } from "cookies-next";
 import { AgreementFormData, Term, UserRole } from "@/app/utils/types";
 import { useRouter } from "next/navigation";
 import ContractReviewPopup from "@/app/components/Contractreviewpop";
-import SellerSidebar from "../sellerSidebar";
+import SellerSidebar from "../Sellersidebar";
 
 const TermsAndConditions: React.FC = () => {
   const [agreement, setAgreement] = useState<AgreementFormData | null>(null);

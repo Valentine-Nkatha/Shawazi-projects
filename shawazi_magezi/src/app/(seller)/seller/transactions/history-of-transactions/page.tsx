@@ -5,8 +5,7 @@ import { formatDate } from "@/app/utils/formatDate";
 import useTransactions from "@/app/hooks/useTransactions";
 import { IoArrowBackOutline } from "react-icons/io5";
 import Link from "next/link";
-import SellerSidebar from "../../components/sellerSidebar";
-
+import SellerSidebar from "../../components/Sellersidebar";
 
 // Define the Transaction type explicitly in this file
 interface Transaction {
@@ -149,33 +148,6 @@ const Transactionss = () => {
 };
 
 export default Transactionss;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // "use client";
 // import React, { useState } from "react";

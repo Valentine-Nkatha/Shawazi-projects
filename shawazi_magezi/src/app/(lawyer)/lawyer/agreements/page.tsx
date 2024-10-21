@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import * as yup from "yup";
+import LawyerSidebar from "../components/lawyerSidebar";
 
 type AgreementFormData = {
   parcel_number: string;
@@ -150,6 +151,8 @@ const CreateAgreement: React.FC = () => {
   ];
 
   return (
+    <div className="flex">
+    <LawyerSidebar />
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
       <h1 className="text-2xl font-bold text-center mb-6 text-brown-700">
         Create Agreement
@@ -190,6 +193,7 @@ const CreateAgreement: React.FC = () => {
           </button>
         </div>
       </form>
+    </div>
     </div>
   );
 };
