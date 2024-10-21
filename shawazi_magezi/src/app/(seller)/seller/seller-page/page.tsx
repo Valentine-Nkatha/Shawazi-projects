@@ -148,7 +148,7 @@ const SellerPage: FC = () => {
             </tbody>
           </table>
           <div className="flex justify-end">
-            <Link href="/transactions/history-of-transactions">
+            <Link href="/seller/transactions/history-of-transactions">
               <button className="bg-hover text-white py-2 px-4 rounded-lg">
                 View More
               </button>
