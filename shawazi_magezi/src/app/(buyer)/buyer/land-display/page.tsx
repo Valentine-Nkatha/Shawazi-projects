@@ -62,7 +62,7 @@ function LandDetailsList() {
   const handleInterestClick = async (land: LandDetails) => {
     setLoadingStates((prev) => ({ ...prev, [land.land_details_id]: true }));
     try {
-      const userPhone = Cookies.get("userPhone");
+      const userPhone = Cookies.get("phone_number");
       if (!userPhone) {
         toast.error("User is not logged in!");
         return;
@@ -230,6 +230,11 @@ function LandDetailsList() {
   );
 }
 export default LandDetailsList;
+
+
+
+
+
 
 // 'use client'
 // import { ToastContainer, toast } from "react-toastify";
