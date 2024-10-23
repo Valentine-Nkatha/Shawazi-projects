@@ -3,6 +3,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { fetchTransaction } from '../utils/fetchTransaction';
 
 interface Transaction {
+  code: ReactNode;
   unique_code: ReactNode;
   buyer: boolean;
     name: string;

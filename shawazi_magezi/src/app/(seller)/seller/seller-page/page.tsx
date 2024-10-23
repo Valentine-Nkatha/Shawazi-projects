@@ -42,7 +42,6 @@ const SellerPage: FC = () => {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
       <div className="lg:fixed lg:left-0 lg:top-0 lg:h-full mr-42 lg:w-64">
-        {/* <SellerSidebar /> */}
       </div>
       <SellerSidebar />
       <div className="flex-1 lg:ml-[16rem] mr-1 p-4 sm:p-6 lg:p-8">
@@ -71,12 +70,6 @@ const SellerPage: FC = () => {
             </button>
           </Link>
         </section>
-        {/* <section className="mb-8 mt-10">
-          <h2 className="text-xl sm:text-xl lg:text-2xl font-semibold text-primary mb-4">
-            Your Current Area
-          </h2>
-          <LocationMap />
-        </section> */}
         <section className="mb-8 mt-10 your-current-area-section">
           <h2 className="text-xl sm:text-xl lg:text-2xl font-semibold text-primary mb-4">
             Your Current Area
