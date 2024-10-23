@@ -35,7 +35,7 @@ const Teaser = () => {
             <br className="hidden md:inline" /> Please feel free to continue
             with our system
           </p>
-          <Link href="./admin/DashboardData" onClick={handleClick}>
+          <Link href="/admin/dashboarddata" onClick={handleClick}>
             <button className="w-full md:w-60 h-14 bg-[#508408] text-white font-bold rounded-md hover:bg-green-600 transition duration-100 lg:mt-8 lg:mb-6 flex items-center justify-center mx-auto lg:mx-0">
               Continue
             </button>
