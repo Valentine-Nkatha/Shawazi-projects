@@ -152,7 +152,7 @@ const Signup = () => {
                 className="absolute inset-y-0 right-0 flex items-center pr-3"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <FaEyeSlash className="h-4 w-4 sm:h-5 sm:w-5 text-primary" /> : <FaEye className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />}
+                {showPassword ? <FaEye className="h-4 w-4 sm:h-5 sm:w-5 text-primary" /> : <FaEyeSlash className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />}
               </button>
             </div>
             {errors.password && <p className="mt-1 text-xs text-border-color">{errors.password.message}</p>}
@@ -173,7 +173,7 @@ const Signup = () => {
                 className="absolute inset-y-0 right-0 flex items-center pr-3"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
-                {showConfirmPassword ? <FaEyeSlash className="h-4 w-4 sm:h-5 sm:w-5 text-primary" /> : <FaEye className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />}
+                {showConfirmPassword ? <FaEye className="h-4 w-4 sm:h-5 sm:w-5 text-primary" /> : <FaEyeSlash className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />}
               </button>
             </div>
             {errors.confirm_password && <p className="mt-1 text-xs text-border-color">{errors.confirm_password.message}</p>}

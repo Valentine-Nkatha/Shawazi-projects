@@ -1,3 +1,15 @@
+
+
+
+
+
+
+
+
+
+
+
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -134,9 +146,9 @@ const Login = () => {
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <FaEyeSlash className="h-5 w-5 text-primary" />
-                ) : (
                   <FaEye className="h-5 w-5 text-primary" />
+                ) : (
+                  <FaEyeSlash className="h-5 w-5 text-primary" />
                 )}
               </button>
             </div>
