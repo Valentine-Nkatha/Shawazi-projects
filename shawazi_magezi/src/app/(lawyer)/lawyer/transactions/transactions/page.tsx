@@ -29,11 +29,6 @@ const TransactionsDisplay = () => {
                 History Of Transactions
               </button>
             </Link>
-            <Link href="/seller/transactions/upload_transactions">
-              <button className="custom-button bg-hover text-white py-2 px-4 rounded-lg w-full md:w-auto">
-                Upload Payments
-              </button>
-            </Link>
             <Link href="/seller/transactions/history-of-transactions">
               <button className="custom-button bg-hover text-white py-2 px-4 rounded-lg w-full md:w-auto">
                 View More

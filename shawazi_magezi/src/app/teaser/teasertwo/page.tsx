@@ -21,7 +21,7 @@ const SecureTransactions = () => {
       </h1>
 
       <p className="text-base sm:text-lg md:text-xl lg:text-[18px] text-black mb-8 mx-4 sm:mx-8 lg:mx-0 text-center">
-      Building trust through clear, accessible, and accountable land governance. Together, we ensure transparency in every step of the process.
+      We provide clear and open processes in land acquisition by fostering trust and accountability for all stakeholders.
         <br />
         <span className="block">is safe, verified, and effortless.</span>
       </p>
