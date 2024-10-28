@@ -146,6 +146,7 @@ const Signup = () => {
                 type={showPassword ? "text" : "password"}
                 {...register('password')}
                 className={`w-full border text-sm sm:text-base md:text-lg ${errors.password ? 'border-border-color' : 'border-foreground'} border-2 rounded-md shadow-sm py-1.5 sm:py-2 px-2 sm:px-3 focus:outline-none focus:ring-1 focus:ring-foreground`}
+                placeholder="@Pass123!"
               />
               <button
                 type="button"
@@ -167,6 +168,7 @@ const Signup = () => {
                 type={showConfirmPassword ? "text" : "password"}
                 {...register('confirm_password')}
                 className={`w-full border text-sm sm:text-base md:text-lg ${errors.confirm_password ? 'border-border-color' : 'border-foreground'} border-2 rounded-md shadow-sm py-1.5 sm:py-2 px-2 sm:px-3 focus:outline-none focus:ring-1 focus:ring-foreground`}
+                placeholder="@Pass123!"
               />
               <button
                 type="button"

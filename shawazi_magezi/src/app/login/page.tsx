@@ -139,6 +139,7 @@ const Login = () => {
                 className={`w-full border text-[16px] sm:text-[18px] ${
                   errors.password ? "border-red-500" : "border-foreground"
                 } border-2 rounded-md shadow-sm p-2 sm:p-3 focus:outline-none focus:ring-1 focus:ring-foreground`}
+                placeholder="@Pass123!"
               />
               <button
                 type="button"
