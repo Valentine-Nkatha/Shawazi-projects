@@ -7,9 +7,8 @@ import { useGetUsers } from "@/app/hooks/useGetUsers";
 import UserCard from "@/app/hooks/usersCard/UserCard";
 import useChatMessages from "@/app/hooks/useChatMessages";
 import { UserDatas } from "@/app/utils/types";
-import { Toaster, toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { CgProfile } from "react-icons/cg";
-import InviteLawyerModal from "@/app/(lawyer)/lawyer/components/Invite-lawyer";
 import LawyerSidebar from "../components/lawyerSidebar";
 
 type GetUserType = {
@@ -45,7 +44,6 @@ const ChatRoom: React.FC = () => {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [sendingMessage, setSendingMessage] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUserListVisible, setIsUserListVisible] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const { sendMessage } = useChatMessages(currentUserId || "", currentUserRole || "");
@@ -82,17 +80,17 @@ const ChatRoom: React.FC = () => {
         return false;
       });
       setAvailableUsers(filteredUsers);
-      setFilteredUsers(filteredUsers); // Initialize filtered users
+      setFilteredUsers(filteredUsers);
     }
   }, [loading, users, currentUserRole]);
 
-  // Update filtered users whenever searchTerm changes
-  useEffect(() => {
+  const handleSearch = (searchValue: string) => {
+    setSearchTerm(searchValue);
     const filtered = availableUsers.filter((user) =>
-      user.first_name.toLowerCase().includes(searchTerm.toLowerCase())
+      user.first_name.toLowerCase().startsWith(searchValue.toLowerCase())
     );
     setFilteredUsers(filtered);
-  }, [searchTerm, availableUsers]);
+  };
 
   const handleSendMessage = async (
     e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
@@ -135,55 +133,13 @@ const ChatRoom: React.FC = () => {
 
   const filteredMessages = selectedUser
     ? localMessages.filter((message: MessageType) => {
-        const senderMatch = message.sender?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false;
-        const contentMatch = message.content?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false;
-
-        return (
-          (message.sender === selectedUser.id || message.recipientId === selectedUser.id) &&
-          (senderMatch || contentMatch)
-        );
+        return message.sender === selectedUser.id || message.recipientId === selectedUser.id;
       })
     : [];
 
   const startConversation = (user: GetUserType) => {
     setSelectedUser(user);
     setIsUserListVisible(false);
-  };
-
-  const handleInviteLawyerClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleInviteLawyerSubmit = async (firstName: string, lastName: string, invitedBy: string, phoneNumber: string) => {
-    const invitationData = {
-      first_name: firstName,
-      last_name: lastName,
-      invited_by: invitedBy,
-      phone_number: phoneNumber,
-    };
-
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/send_invitation/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(invitationData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to send invitation");
-      }
-
-      toast.success("Invitation sent successfully!");
-      handleCloseModal();
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Something went wrong");
-    }
   };
 
   const getUserListTitle = () => {
@@ -240,8 +196,8 @@ const ChatRoom: React.FC = () => {
             <input
               type="text"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search users..."
+              onChange={(e) => handleSearch(e.target.value)}
+              placeholder="Search by first name..."
               className="w-full border-2 p-2 rounded-lg border-hover"
             />
           </div>
@@ -256,7 +212,7 @@ const ChatRoom: React.FC = () => {
                 />
               ))
             ) : (
-              <p className="text-gray-600">No users available</p>
+              <p className="text-gray-600 p-4">No users found with that first name</p>
             )}
           </div>
         </div>
@@ -266,8 +222,8 @@ const ChatRoom: React.FC = () => {
             <input
               type="text"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search users..."
+              onChange={(e) => handleSearch(e.target.value)}
+              placeholder="Search by first name..."
               className="w-full border-2 p-2 rounded-lg border-hover"
             />
             <button
@@ -338,31 +294,13 @@ const ChatRoom: React.FC = () => {
                 <Send />
               </button>
             </form>
-            <button className="w-full mt-2 bg-hover text-white hover:bg-green-600 p-2 rounded" onClick={handleInviteLawyerClick}>
-              Invite Lawyer
-            </button>
           </div>
 
           {errorMessage && <div className="text-red-600 mt-2">{errorMessage}</div>}
         </div>
       </div>
-
-      <InviteLawyerModal open={isModalOpen} onClose={handleCloseModal} onSubmit={handleInviteLawyerSubmit} />
     </div>
   );
 };
 
 export default ChatRoom;
-
-
-
-
-
-
-
-
-
-
-
-
-
