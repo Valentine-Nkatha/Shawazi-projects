@@ -1,10 +1,7 @@
-
 "use client";
-
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCookie } from "cookies-next";
-
 const OtpVerification = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [error, setError] = useState("");
@@ -12,11 +9,9 @@ const OtpVerification = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const router = useRouter();
-
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const roleFromUrl = urlParams.get("role");
-
     if (roleFromUrl) {
       setUserRole(roleFromUrl);
     } else {
@@ -26,16 +21,17 @@ const OtpVerification = () => {
       }
     }
   }, [router]);
-
   const handleOtpChange = (index: number, value: string) => {
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-    if (value && inputRefs.current[index + 1]) {
-      inputRefs.current[index + 1]?.focus();
+    // Ensure only numeric input is allowed
+    if (/^\d*$/.test(value)) {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+      if (value && inputRefs.current[index + 1]) {
+        inputRefs.current[index + 1]?.focus();
+      }
     }
   };
-
   const handleKeyDown = (
     index: number,
     e: React.KeyboardEvent<HTMLInputElement>
@@ -44,12 +40,10 @@ const OtpVerification = () => {
       inputRefs.current[index - 1]?.focus();
     }
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-
     try {
       const isVerified = await verifyOtp(otp.join(""));
       if (isVerified) {
@@ -70,7 +64,6 @@ const OtpVerification = () => {
       } else {
         setError("Invalid OTP. Please try again.");
       }
-
     } catch (err) {
       console.error("Error during OTP verification:", err);
       setError("Failed to verify OTP. Please try again.");
@@ -78,16 +71,14 @@ const OtpVerification = () => {
       setLoading(false);
     }
   };
-
   const verifyOtp = async (otpString: string) => {
     console.log("Verifying OTP:", otpString);
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(true); 
+        resolve(true);
       }, 1000);
     });
   };
-
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center items-center relative overflow-hidden">
       <div className="border-2 border-primary rounded-lg p-6 sm:p-8 md:p-12 mx-auto w-[90%] md:w-[60%] lg:w-[40%] bg-white shadow-md">
@@ -127,5 +118,4 @@ const OtpVerification = () => {
     </div>
   );
 };
-
 export default OtpVerification;
