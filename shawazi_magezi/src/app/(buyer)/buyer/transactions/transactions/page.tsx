@@ -5,8 +5,6 @@ import useTransactions from "@/app/hooks/useTransactions";
 import BuyerSidebar from "../../components/buyerSidebar";
 
 
-
-
 const TransactionsDisplay = () => {
   const { transactions, isLoading, error } = useTransactions();
 
@@ -25,17 +23,17 @@ const TransactionsDisplay = () => {
 
         <div className="w-full max-w-5xl mt-12 md:mt-16 lg:mt-20 mx-auto">
           <div className="flex flex-col md:flex-row justify-between gap-3 mb-6">
-            <Link href="/seller/transactions/history-of-transactions">
+            <Link href="/buyer/transactions/history-of-transactions">
               <button className="custom-button bg-hover text-white py-2 px-4 rounded-lg w-full md:w-auto">
                 History Of Transactions
               </button>
             </Link>
-            <Link href="/seller/transactions/upload_transactions">
+            <Link href="/buyer/transactions/upload_transactions">
               <button className="custom-button bg-hover text-white py-2 px-4 rounded-lg w-full md:w-auto">
                 Upload Payments
               </button>
             </Link>
-            <Link href="/seller/transactions/history-of-transactions">
+            <Link href="/buyer/transactions/history-of-transactions">
               <button className="custom-button bg-hover text-white py-2 px-4 rounded-lg w-full md:w-auto">
                 View More
               </button>
@@ -78,7 +76,7 @@ const TransactionsDisplay = () => {
                           </span>
                         </td>
                         <td className="p-3 text-sm md:text-base lg:text-lg">{transaction.amount}</td>
-                        <td className="p-3 text-sm md:text-base lg:text-lg">{transaction.unique_code}</td>
+                        <td className="p-3 text-sm md:text-base lg:text-lg">{transaction.code}</td>
                       </tr>
                     ))
                 ) : (

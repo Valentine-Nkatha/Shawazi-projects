@@ -42,7 +42,6 @@ const SellerPage: FC = () => {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
       <div className="lg:fixed lg:left-0 lg:top-0 lg:h-full mr-42 lg:w-64">
-        {/* <SellerSidebar /> */}
       </div>
       <SellerSidebar />
       <div className="flex-1 lg:ml-[16rem] mr-1 p-4 sm:p-6 lg:p-8">
@@ -55,28 +54,22 @@ const SellerPage: FC = () => {
           </h2>
         </header>
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Link href="/chatroom" className="block">
+          <Link href="/seller/chatroom" className="block">
             <button className="bg-yellow-500 w-full lg:h-40 h-20 text-lg sm:text-xl text-white py-4 px-4 rounded-md shadow-lg hover:bg-yellow-600 transition-colors">
               Go to chats
             </button>
           </Link>
-          <Link href="/transactions/upload_transactions" className="block">
+          <Link href="/seller/transactions/upload_transactions" className="block">
             <button className="bg-yellow-500 w-full lg:h-40 h-20 text-lg sm:text-xl text-white py-4 px-4 rounded-md shadow-lg hover:bg-yellow-600 transition-colors">
               Upload receipt of payment
             </button>
           </Link>
-          <Link href="/profile" className="block">
+          <Link href="/seller/profile" className="block">
             <button className="bg-yellow-500 w-full lg:h-40 h-20 text-lg sm:text-xl text-white py-4 px-4 rounded-md shadow-lg hover:bg-yellow-600 transition-colors">
               View Profile
             </button>
           </Link>
         </section>
-        {/* <section className="mb-8 mt-10">
-          <h2 className="text-xl sm:text-xl lg:text-2xl font-semibold text-primary mb-4">
-            Your Current Area
-          </h2>
-          <LocationMap />
-        </section> */}
         <section className="mb-8 mt-10 your-current-area-section">
           <h2 className="text-xl sm:text-xl lg:text-2xl font-semibold text-primary mb-4">
             Your Current Area

@@ -76,7 +76,7 @@ const TransactionsDisplay = () => {
                           </span>
                         </td>
                         <td className="p-3 text-sm md:text-base lg:text-lg">{transaction.amount}</td>
-                        <td className="p-3 text-sm md:text-base lg:text-lg">{transaction.unique_code}</td>
+                        <td className="p-3 text-sm md:text-base lg:text-lg">{transaction.code}</td>
                       </tr>
                     ))
                 ) : (

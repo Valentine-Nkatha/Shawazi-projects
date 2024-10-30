@@ -146,13 +146,14 @@ const Signup = () => {
                 type={showPassword ? "text" : "password"}
                 {...register('password')}
                 className={`w-full border text-sm sm:text-base md:text-lg ${errors.password ? 'border-border-color' : 'border-foreground'} border-2 rounded-md shadow-sm py-1.5 sm:py-2 px-2 sm:px-3 focus:outline-none focus:ring-1 focus:ring-foreground`}
+                placeholder="@Pass123!"
               />
               <button
                 type="button"
                 className="absolute inset-y-0 right-0 flex items-center pr-3"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <FaEyeSlash className="h-4 w-4 sm:h-5 sm:w-5 text-primary" /> : <FaEye className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />}
+                {showPassword ? <FaEye className="h-4 w-4 sm:h-5 sm:w-5 text-primary" /> : <FaEyeSlash className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />}
               </button>
             </div>
             {errors.password && <p className="mt-1 text-xs text-border-color">{errors.password.message}</p>}
@@ -167,13 +168,14 @@ const Signup = () => {
                 type={showConfirmPassword ? "text" : "password"}
                 {...register('confirm_password')}
                 className={`w-full border text-sm sm:text-base md:text-lg ${errors.confirm_password ? 'border-border-color' : 'border-foreground'} border-2 rounded-md shadow-sm py-1.5 sm:py-2 px-2 sm:px-3 focus:outline-none focus:ring-1 focus:ring-foreground`}
+                placeholder="@Pass123!"
               />
               <button
                 type="button"
                 className="absolute inset-y-0 right-0 flex items-center pr-3"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
-                {showConfirmPassword ? <FaEyeSlash className="h-4 w-4 sm:h-5 sm:w-5 text-primary" /> : <FaEye className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />}
+                {showConfirmPassword ? <FaEye className="h-4 w-4 sm:h-5 sm:w-5 text-primary" /> : <FaEyeSlash className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />}
               </button>
             </div>
             {errors.confirm_password && <p className="mt-1 text-xs text-border-color">{errors.confirm_password.message}</p>}

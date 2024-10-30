@@ -124,6 +124,13 @@ export interface UserDatas {
   role: 'buyer' | 'seller' | 'lawyer';
 }
 
+export interface LandPlot {
+  owner_name: string;
+  latitude: number;   
+  longitude: number;
+  id: string;
+  location_name: string;
+}
 
 
 declare module 'cookie' {

@@ -1,14 +1,20 @@
-
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image'; 
 import { IoStatsChartSharp } from "react-icons/io5";
-import { MdOutlinePayments, MdOutlineSettings } from "react-icons/md";
+import { MdOutlineSettings } from "react-icons/md";
 import { LuUsers2 } from "react-icons/lu";
 import { LiaFileContractSolid } from "react-icons/lia";
 import { BiLogOut } from "react-icons/bi";
 import { HiMenu, HiX } from "react-icons/hi"; 
 import { usePathname } from 'next/navigation';
+
+interface MenuItem {
+    name: string;
+    icon: JSX.Element;
+    href: string;
+    highlightChart?: string;
+}
 
 interface SidebarProps {
     setActiveChart: (chartName: string) => void; 
@@ -33,14 +39,10 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveChart }) => {
         return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
 
-    const menuItems = [
-        { name: 'Dashboard', icon: <IoStatsChartSharp className="w-8 h-8 mr-2" />, href: '/' },
-        { name: 'Agreements', icon: <LiaFileContractSolid className="w-8 h-8 mr-2" />, href: '/admin/components/AgreementsChart' },
-        { name: 'Payments', icon: <MdOutlinePayments className="w-8 h-8 mr-2" />, href: '/admin/components/TransactionsChart', highlightChart: 'TransactionsChart' },
-        
-        { name: 'Users', icon: <LuUsers2 className="w-8 h-8 mr-2" />, href: '/admin/components/UsersChart' },
-
-        { name: 'Land Plots', icon: <LuUsers2 className="w-8 h-8 mr-2" />, href: '/(admin)/components/SearchLandCard' },
+    const menuItems: MenuItem[] = [
+        { name: 'Dashboard', icon: <IoStatsChartSharp className="w-8 h-8 mr-2" />, href: '/admin/dashboarddata' },
+        { name: 'Agreements', icon: <LiaFileContractSolid className="w-8 h-8 mr-2" />, href: '/admin/agreements_data' },
+        { name: 'Land Plots', icon: <LuUsers2 className="w-8 h-8 mr-2" />, href: '/admin/land_locations' },
     ];
 
     const toggleMenu = () => {
@@ -123,4 +125,3 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveChart }) => {
 };
 
 export default Sidebar;
-
