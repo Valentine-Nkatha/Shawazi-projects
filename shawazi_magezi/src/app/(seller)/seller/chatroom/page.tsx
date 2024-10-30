@@ -72,20 +72,23 @@ const ChatRoom: React.FC = () => {
   useEffect(() => {
     if (!loading && users) {
       const filteredUsers: GetUserType[] = users.filter((user) => {
-        if (currentUserRole === "lawyer") {
-          return user.role === "buyer" || user.role === "seller";
-        }
-        if (currentUserRole === "buyer") {
-          return user.role === "seller";
-        }
-        if (currentUserRole === "seller") {
-          return user.role === "buyer";
-        }
-        return false;
+        const roleMatch = currentUserRole === "lawyer" 
+          ? (user.role === "buyer" || user.role === "seller")
+          : currentUserRole === "buyer" 
+            ? user.role === "seller"
+            : currentUserRole === "seller" 
+              ? user.role === "buyer"
+              : false;
+              
+        const nameMatch = searchTerm 
+          ? user.first_name.toLowerCase().startsWith(searchTerm.toLowerCase())
+          : true;
+          
+        return roleMatch && nameMatch;
       });
       setAvailableUsers(filteredUsers);
     }
-  }, [loading, users, currentUserRole]);
+  }, [loading, users, currentUserRole, searchTerm]);
 
   const handleSendMessage = async (
     e:
@@ -130,21 +133,13 @@ const ChatRoom: React.FC = () => {
       handleSendMessage(e);
     }
   };
-  const filteredMessages = selectedUser
-    ? localMessages.filter((message: MessageType) => {
-        const senderMatch =
-          message.sender?.toLowerCase().includes(searchTerm.toLowerCase()) ??
-          false;
-        const contentMatch =
-          message.content?.toLowerCase().includes(searchTerm.toLowerCase()) ??
-          false;
 
-        return (
-          (message.sender === selectedUser.id ||
-            message.recipientId === selectedUser.id) &&
-          (senderMatch || contentMatch)
-        );
-      })
+  const filteredMessages = selectedUser
+    ? localMessages.filter(
+        (message: MessageType) =>
+          message.sender === selectedUser.id ||
+          message.recipientId === selectedUser.id
+      )
     : [];
 
   const startConversation = (user: GetUserType) => {
@@ -264,7 +259,7 @@ const ChatRoom: React.FC = () => {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search users..."
+              placeholder="Search by first name..."
               className="w-full border-2 p-2 rounded-lg border-hover"
             />
           </div>
