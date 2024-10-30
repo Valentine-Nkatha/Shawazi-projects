@@ -315,9 +315,9 @@ const ChatRoom: React.FC = () => {
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 placeholder="Type your message..."
-                className="border-hover border-2 p-2 rounded-l w-3/4"
+                className="border-hover border-2 p-2 rounded-l w-[95%]"
               />
-              <button type="submit" className="bg-hover text-white hover:bg-green-600 p-2 rounded-r w-1/4">
+              <button type="submit" className="bg-hover text-white hover:bg-green-600 p-2 rounded-r w-1/8">
                 <Send />
               </button>
             </form>
