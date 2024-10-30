@@ -37,6 +37,7 @@ const ChatRoom: React.FC = () => {
   const [inputMessage, setInputMessage] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [availableUsers, setAvailableUsers] = useState<GetUserType[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<GetUserType[]>([]);
   const [selectedUser, setSelectedUser] = useState<GetUserType | null>(null);
   const messagesEndRef = useScrollToBottom<HTMLDivElement>();
   const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
@@ -47,10 +48,7 @@ const ChatRoom: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUserListVisible, setIsUserListVisible] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
-  const { sendMessage } = useChatMessages(
-    currentUserId || "",
-    currentUserRole || ""
-  );
+  const { sendMessage } = useChatMessages(currentUserId || "", currentUserRole || "");
   const [localMessages, setLocalMessages] = useState<MessageType[]>([]);
 
   useEffect(() => {
@@ -84,20 +82,24 @@ const ChatRoom: React.FC = () => {
         return false;
       });
       setAvailableUsers(filteredUsers);
+      setFilteredUsers(filteredUsers); // Initialize filtered users
     }
   }, [loading, users, currentUserRole]);
 
+  // Update filtered users whenever searchTerm changes
+  useEffect(() => {
+    const filtered = availableUsers.filter((user) =>
+      user.first_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredUsers(filtered);
+  }, [searchTerm, availableUsers]);
+
   const handleSendMessage = async (
-    e:
-      | React.FormEvent<HTMLFormElement>
-      | React.MouseEvent<HTMLButtonElement>
-      | React.KeyboardEvent<HTMLInputElement>
+    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
   ) => {
     e.preventDefault();
     if (inputMessage.trim() === "" || !selectedUser || sendingMessage) {
-      setErrorMessage(
-        "Cannot send message: Message is empty or no user selected."
-      );
+      setErrorMessage("Cannot send message: Message is empty or no user selected.");
       return;
     }
     setSendingMessage(true);
@@ -130,18 +132,14 @@ const ChatRoom: React.FC = () => {
       handleSendMessage(e);
     }
   };
+
   const filteredMessages = selectedUser
     ? localMessages.filter((message: MessageType) => {
-        const senderMatch =
-          message.sender?.toLowerCase().includes(searchTerm.toLowerCase()) ??
-          false;
-        const contentMatch =
-          message.content?.toLowerCase().includes(searchTerm.toLowerCase()) ??
-          false;
+        const senderMatch = message.sender?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false;
+        const contentMatch = message.content?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false;
 
         return (
-          (message.sender === selectedUser.id ||
-            message.recipientId === selectedUser.id) &&
+          (message.sender === selectedUser.id || message.recipientId === selectedUser.id) &&
           (senderMatch || contentMatch)
         );
       })
@@ -160,12 +158,7 @@ const ChatRoom: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const handleInviteLawyerSubmit = async (
-    firstName: string,
-    lastName: string,
-    invitedBy: string,
-    phoneNumber: string
-  ) => {
+  const handleInviteLawyerSubmit = async (firstName: string, lastName: string, invitedBy: string, phoneNumber: string) => {
     const invitationData = {
       first_name: firstName,
       last_name: lastName,
@@ -174,16 +167,13 @@ const ChatRoom: React.FC = () => {
     };
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/send_invitation/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(invitationData),
-        }
-      );
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/send_invitation/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(invitationData),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to send invitation");
@@ -192,9 +182,7 @@ const ChatRoom: React.FC = () => {
       toast.success("Invitation sent successfully!");
       handleCloseModal();
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Something went wrong"
-      );
+      toast.error(error instanceof Error ? error.message : "Something went wrong");
     }
   };
 
@@ -212,14 +200,11 @@ const ChatRoom: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-full">Loading...</div>
-    );
+    return <div className="flex justify-center items-center h-full">Loading...</div>;
   }
 
   if (usersError) {
-    const errorMessage =
-      typeof usersError === "string" ? usersError : usersError.message;
+    const errorMessage = typeof usersError === "string" ? usersError : usersError.message;
     return (
       <div className="flex justify-center items-center h-full">
         Error: {errorMessage}
@@ -235,19 +220,13 @@ const ChatRoom: React.FC = () => {
       </div>
 
       <div className="lg:hidden">
-        <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-4 text-gray-500 focus:outline-none focus:text-gray-700"
-        >
+        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-4 text-gray-500 focus:outline-none focus:text-gray-700">
           <Menu size={24} />
         </button>
         {isSidebarOpen && (
           <div className="fixed inset-0 z-50 bg-white">
             <div className="p-4">
-              <button
-                onClick={() => setIsSidebarOpen(false)}
-                className="mb-4 text-gray-500 focus:outline-none focus:text-gray-700"
-              >
+              <button onClick={() => setIsSidebarOpen(false)} className="mb-4 text-gray-500 focus:outline-none focus:text-gray-700">
                 Close
               </button>
             </div>
@@ -256,9 +235,7 @@ const ChatRoom: React.FC = () => {
       </div>
 
       <div className="flex-grow flex flex-col md:flex-row">
-        <div
-          className={`w-full md:w-1/4 lg:w-1/3 xl:w-1/4 bg-white p-4 border-r border-gray-200 shadow-md hidden lg:block`}
-        >
+        <div className={`w-full md:w-1/4 lg:w-1/3 xl:w-1/4 bg-white p-4 border-r border-gray-200 shadow-md hidden lg:block`}>
           <div className="mb-4">
             <input
               type="text"
@@ -269,12 +246,9 @@ const ChatRoom: React.FC = () => {
             />
           </div>
           <h2 className="font-semibold mt-4">{getUserListTitle()}</h2>
-          <div
-            className="flex-grow overflow-y-auto mt-2 bg-[#c5daa6]"
-            style={{ maxHeight: "60vh" }}
-          >
-            {availableUsers.length > 0 ? (
-              availableUsers.map((user) => (
+          <div className="flex-grow overflow-y-auto mt-2 bg-[#c5daa6]" style={{ maxHeight: "60vh" }}>
+            {filteredUsers.length > 0 ? (
+              filteredUsers.map((user) => (
                 <UserCard
                   key={user.id}
                   user={user as Partial<UserDatas>}
@@ -289,22 +263,31 @@ const ChatRoom: React.FC = () => {
 
         <div className="lg:hidden w-full p-4">
           <div className="relative">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search users..."
+              className="w-full border-2 p-2 rounded-lg border-hover"
+            />
+            <button
+              onClick={() => {}}
+              className="bg-hover text-white hover:bg-green-600 p-2 rounded-md absolute right-0 top-0"
+            >
+              <Send />
+            </button>
+          </div>
+          <div className="relative">
             <button
               onClick={() => setIsUserListVisible(!isUserListVisible)}
               className="flex items-center justify-between w-full bg-white border border-gray-300 p-2 rounded-md"
             >
-              <span>
-                {selectedUser ? selectedUser.first_name : getUserListTitle()}
-              </span>
-              <ChevronDown
-                className={`transform transition-transform ${
-                  isUserListVisible ? "rotate-180" : ""
-                }`}
-              />
+              <span>{selectedUser ? selectedUser.first_name : getUserListTitle()}</span>
+              <ChevronDown className={`transform transition-transform ${isUserListVisible ? "rotate-180" : ""}`} />
             </button>
             {isUserListVisible && (
               <div className="absolute z-10 w-full mt-2 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
-                {availableUsers.map((user) => (
+                {filteredUsers.map((user) => (
                   <div
                     key={user.id}
                     className="p-2 hover:bg-gray-100 cursor-pointer"
@@ -313,10 +296,7 @@ const ChatRoom: React.FC = () => {
                       setIsUserListVisible(false);
                     }}
                   >
-                    <UserCard
-                      user={user as Partial<UserDatas>}
-                      startConversation={() => {}}
-                    />
+                    <UserCard user={user as Partial<UserDatas>} startConversation={() => {}} />
                   </div>
                 ))}
               </div>
@@ -330,25 +310,14 @@ const ChatRoom: React.FC = () => {
               Chat with {selectedUser ? selectedUser.first_name : "..."}
             </h2>
             {filteredMessages.map((message, index) => (
-              <div
-                key={index}
-                className={`my-2 ${
-                  message.sender === currentUserName
-                    ? "text-right"
-                    : "text-left"
-                }`}
-              >
+              <div key={index} className={`my-2 ${message.sender === currentUserName ? "text-right" : "text-left"}`}>
                 <div className="flex items-center justify-end mr-4">
                   <div className="bg-[#D0F1A1] p-7 rounded-lg shadow-md flex items-center">
                     <CgProfile className="text-primary mr-2 text-2xl" />
-                    <span className="font-semibold text-xl">
-                      {message.sender}:
-                    </span>
+                    <span className="font-semibold text-xl">{message.sender}:</span>
                     <span className="text-xl ml-2">{message.content}</span>
                   </div>
-                  <div className="text-gray-500 text-xs ml-2">
-                    {formatTime(message.timestamp)}
-                  </div>
+                  <div className="text-gray-500 text-xs ml-2">{formatTime(message.timestamp)}</div>
                 </div>
               </div>
             ))}
@@ -365,34 +334,35 @@ const ChatRoom: React.FC = () => {
                 placeholder="Type your message..."
                 className="border-hover border-2 p-2 rounded-l w-3/4"
               />
-              <button
-                type="submit"
-                className="bg-hover text-white hover:bg-green-600 p-2 rounded-r w-1/4"
-              >
+              <button type="submit" className="bg-hover text-white hover:bg-green-600 p-2 rounded-r w-1/4">
                 <Send />
               </button>
             </form>
-            <button
-              className="w-full mt-2 bg-hover text-white hover:bg-green-600 p-2 rounded"
-              onClick={handleInviteLawyerClick}
-            >
+            <button className="w-full mt-2 bg-hover text-white hover:bg-green-600 p-2 rounded" onClick={handleInviteLawyerClick}>
               Invite Lawyer
             </button>
           </div>
 
-          {errorMessage && (
-            <div className="text-red-600 mt-2">{errorMessage}</div>
-          )}
+          {errorMessage && <div className="text-red-600 mt-2">{errorMessage}</div>}
         </div>
       </div>
 
-      <InviteLawyerModal
-        open={isModalOpen}
-        onClose={handleCloseModal}
-        onSubmit={handleInviteLawyerSubmit}
-      />
+      <InviteLawyerModal open={isModalOpen} onClose={handleCloseModal} onSubmit={handleInviteLawyerSubmit} />
     </div>
   );
 };
 
 export default ChatRoom;
+
+
+
+
+
+
+
+
+
+
+
+
+
