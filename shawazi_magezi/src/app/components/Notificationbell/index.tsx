@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { FaBell } from 'react-icons/fa';
-import Cookies from 'js-cookie';
 
 interface Notification {
   message: string;
@@ -12,33 +11,25 @@ interface Notification {
 const SellerNotifications = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
-  
 
+  // Load notifications from localStorage when the component mounts
   useEffect(() => {
-    const storedNotifications = Cookies.get('sellerNotifications');
-    if (storedNotifications) {
-      setNotifications(JSON.parse(storedNotifications));
-    }
+    const storedNotifications = JSON.parse(localStorage.getItem('sellerNotifications') || '[]');
+    setNotifications(storedNotifications);
 
-    const checkForNotifications = () => {
-      const notification = Cookies.get('buyerNotification');
-      if (notification) {
-        const parsedNotification: Notification = JSON.parse(notification);
-        setNotifications((prev) => {
-          const updatedNotifications = [...prev, parsedNotification];
-
-          
-          Cookies.set('sellerNotifications', JSON.stringify(updatedNotifications), { expires: 7 });
-          return updatedNotifications;
-        });
-        
-        
-        Cookies.remove('buyerNotification');
+    // Listen for storage events to sync notifications across tabs
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'sellerNotifications') {
+        setNotifications(JSON.parse(e.newValue || '[]'));
       }
     };
 
-    const intervalId = setInterval(checkForNotifications, 5000);
-    return () => clearInterval(intervalId);
+    window.addEventListener('storage', handleStorageChange);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const toggleNotifications = () => {
@@ -46,10 +37,9 @@ const SellerNotifications = () => {
   };
 
   const clearNotifications = () => {
+    localStorage.removeItem('sellerNotifications');
     setNotifications([]);
   };
-
-  
 
   return (
     <div className="relative">
