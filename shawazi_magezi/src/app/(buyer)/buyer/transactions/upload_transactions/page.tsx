@@ -8,10 +8,7 @@ import { postTransaction } from "@/app/utils/postTransaction";
 import { fetchTransaction } from "@/app/utils/fetchTransaction";
 import { formatDate } from "@/app/utils/formatDate";
 import Cookies from "js-cookie";
-import BuyerSidebar from "../../components/buyerSidebar";
-
-
-
+import BuyerSidebar from "../../components/Buyersidebar";
 
 interface Transaction {
   unique_code: string;
@@ -89,9 +86,9 @@ const TransactionsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-gray-100 flex flex-col  mt-14 lg:flex-row">
       <div className="lg:w-64 xl:w-72 flex-shrink-0 lg:sticky lg:top-0 lg:h-screen md:border-r md:border-gray-200">
-        <BuyerSidebar/>
+        <BuyerSidebar />
       </div>
       <div className="flex-1 p-4 sm:p-6 md:p-6 lg:p-8 md:pl-8 lg:pl-12 xl:pl-16 overflow-x-hidden md:max-w-[calc(100%-16rem)] lg:max-w-none">
         <div className="relative flex items-center justify-center mb-6 md:mb-8">
@@ -195,8 +192,12 @@ const TransactionsPage: React.FC = () => {
                 <thead className="bg-hover">
                   <tr className="border-b">
                     <th className="px-4 text-white py-2 font-semibold">Date</th>
-                    <th className="px-4 py-2 text-white font-semibold">Status</th>
-                    <th className="px-4 py-2 text-white font-semibold">Amount</th>
+                    <th className="px-4 py-2 text-white font-semibold">
+                      Status
+                    </th>
+                    <th className="px-4 py-2 text-white font-semibold">
+                      Amount
+                    </th>
                     <th className="px-4 py-2 text-white font-semibold">Code</th>
                   </tr>
                 </thead>
@@ -256,18 +257,21 @@ const TransactionsPage: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-[30px] font-bold text-center">Success</h2>
-            <Image 
-          src="/images/transactions.png" 
-          alt="Secure Land Transactions"
-          width={450}
-          height={450}
-          className="max-w-full h-auto"  
-        />
+            <Image
+              src="/images/transactions.png"
+              alt="Secure Land Transactions"
+              width={450}
+              height={450}
+              className="max-w-full h-auto"
+            />
             <p className="text-center">{message}</p>
             <div className="items-center">
-            <button onClick={closeModal} className="mt-4 bg-hover text-white px-4 py-2 rounded hover:bg-secondary">
-              Close
-            </button>
+              <button
+                onClick={closeModal}
+                className="mt-4 bg-hover text-white px-4 py-2 rounded hover:bg-secondary"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
@@ -276,19 +280,22 @@ const TransactionsPage: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-[30px] font-bold text-center">Error</h2>
-            <Image 
-          src="/images/error.png" 
-          alt="Secure Land Transactions"
-          width={450}
-          height={450}
-          className="max-w-full h-auto"  
-        />
+            <Image
+              src="/images/error.png"
+              alt="Secure Land Transactions"
+              width={450}
+              height={450}
+              className="max-w-full h-auto"
+            />
             <p className="text-center">{message}</p>
             <div className="items-center">
-            <button onClick={closeErrorModal} className="mt-4 bg-red-500 text-white px-4 py-2 rounded">
-              Close
-            </button>
-          </div>
+              <button
+                onClick={closeErrorModal}
+                className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -297,4 +304,3 @@ const TransactionsPage: React.FC = () => {
 };
 
 export default TransactionsPage;
-

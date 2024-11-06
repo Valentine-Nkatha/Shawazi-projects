@@ -8,7 +8,7 @@ import { LandDetails, UserDatas } from "@/app/utils/types";
 import { FaTh, FaList } from "react-icons/fa";
 import LandSearch from "../components/Searchbar";
 import Cookies from "js-cookie";
-import BuyerSidebar from "../components/buyerSidebar";
+import BuyerSidebar from "../components/Buyersidebar";
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 const ITEMS_PER_PAGE = 6;
 function LandDetailsList() {
@@ -69,66 +69,65 @@ function LandDetailsList() {
   };
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const handleInterestClick = async (land: LandDetails) => {
-  setLoadingStates((prev) => ({ ...prev, [land.land_details_id]: true }));
+  const handleInterestClick = async (land: LandDetails) => {
+    setLoadingStates((prev) => ({ ...prev, [land.land_details_id]: true }));
 
-  try {
-    const userPhone = Cookies.get("phone_number");
-    if (!userPhone) {
-      toast.error("User is not logged in!");
-      return;
+    try {
+      const userPhone = Cookies.get("phone_number");
+      if (!userPhone) {
+        toast.error("User is not logged in!");
+        return;
+      }
+
+      const response = await fetch(`${BASE_URL}/api/users/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data.");
+      }
+
+      const users: UserDatas[] = await response.json();
+      const currentUser = users.find((user) => user.phone_number === userPhone);
+      if (!currentUser) {
+        toast.error("User not found!");
+        return;
+      }
+
+      if (!currentUser.first_name || !currentUser.last_name) {
+        toast.error("Invalid buyer data!");
+        return;
+      }
+
+      const buyerName = `${currentUser.first_name} ${currentUser.last_name}`;
+      const notificationData = {
+        message: `A buyer named ${buyerName} is interested in your land in ${land.location_name}!`,
+        timestamp: new Date().toISOString(),
+      };
+      console.log("Notification Data:", notificationData);
+
+      const storedNotifications = JSON.parse(
+        localStorage.getItem("sellerNotifications") || "[]"
+      );
+      storedNotifications.push(notificationData);
+      localStorage.setItem(
+        "sellerNotifications",
+        JSON.stringify(storedNotifications)
+      );
+
+      toast.success(
+        "Interest expressed successfully. Notification sent to seller."
+      );
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("This land is already under consideration by another buyer.");
+    } finally {
+      setLoadingStates((prev) => ({ ...prev, [land.land_details_id]: false }));
     }
-
-    const response = await fetch(`${BASE_URL}/api/users/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch user data.");
-    }
-
-    const users: UserDatas[] = await response.json();
-    const currentUser = users.find((user) => user.phone_number === userPhone);
-    if (!currentUser) {
-      toast.error("User not found!");
-      return;
-    }
-
-    if (!currentUser.first_name || !currentUser.last_name) {
-      toast.error("Invalid buyer data!");
-      return;
-    }
-
-    const buyerName = `${currentUser.first_name} ${currentUser.last_name}`;
-    const notificationData = {
-      message: `A buyer named ${buyerName} is interested in your land in ${land.location_name}!`,
-      timestamp: new Date().toISOString(),
-    };
-    console.log("Notification Data:", notificationData);
-
-    // Change `let` to `const` because `storedNotifications` is not reassigned.
-    const storedNotifications = JSON.parse(
-      localStorage.getItem("sellerNotifications") || "[]"
-    );
-    storedNotifications.push(notificationData);
-    localStorage.setItem(
-      "sellerNotifications",
-      JSON.stringify(storedNotifications)
-    );
-
-    toast.success(
-      "Interest expressed successfully. Notification sent to seller."
-    );
-  } catch (error) {
-    console.error("Error:", error);
-    toast.error("This land is already under consideration by another buyer.");
-  } finally {
-    setLoadingStates((prev) => ({ ...prev, [land.land_details_id]: false }));
-  }
-};
+  };
 
   return (
     <div className="flex flex-col md:flex-row">

@@ -12,19 +12,28 @@ import { setCookie, getCookie } from "cookies-next";
 import { UserLogin } from "../utils/types";
 
 const schema = yup.object().shape({
-  phone_number: yup.string()
+  phone_number: yup
+    .string()
     .matches(/^\+254\d{9}$/, 'Phone number must start with +254 and be 13 characters long')
     .required('Phone number is required'),
-  password: yup.string()
+  password: yup
+    .string()
     .min(6, 'Password must be at least 6 characters')
     .matches(/[A-Z]/, 'Password must contain an uppercase letter')
     .matches(/\d/, 'Password must contain a number')
     .matches(/[@$!%*?&#]/, 'Password must contain a special character')
     .required('Password is required'),
-   role: yup.string().required('Role is required'),
+  role: yup.string().required('Role is required'),
 });
+
+type FormValues = {
+  phone_number: string;
+  password: string;
+  role: string;
+};
+
 const Login = () => {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<UserLogin>({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormValues>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
@@ -33,12 +42,14 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
     const storedPhoneNumber = getCookie("phone_number");
     if (storedPhoneNumber) {
       setValue("phone_number", storedPhoneNumber.toString());
     }
   }, [setValue]);
+
   const onSubmit = async (data: UserLogin) => {
     setLoading(true);
     setError("");
@@ -50,8 +61,7 @@ const Login = () => {
         setCookie("phone_number", data.phone_number, { maxAge: 60 * 60 * 24 });
         setCookie("first_name", first_name, { maxAge: 60 * 60 * 24 });
         setCookie("last_name", last_name, { maxAge: 60 * 60 * 24 });
-        localStorage.setItem("userRole", data.role);
-        localStorage.setItem("phone_number", data.phone_number);
+
         if (rememberMe) {
           localStorage.setItem("rememberedLogin", "true");
           localStorage.setItem("phone_number", data.phone_number);
@@ -72,6 +82,7 @@ const Login = () => {
       setLoading(false);
     }
   };
+
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center relative overflow-hidden">
       <div className="absolute top-0 left-0 w-60 h-60 bg-foreground rounded-full -translate-x-1/2 -translate-y-1/2"></div>
@@ -179,4 +190,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;

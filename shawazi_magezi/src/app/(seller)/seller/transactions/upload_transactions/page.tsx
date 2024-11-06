@@ -88,7 +88,7 @@ const TransactionsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
-      <div className="lg:w-64 xl:w-72 flex-shrink-0 lg:sticky lg:top-0 lg:h-screen md:border-r md:border-gray-200">
+      <div className="lg:w-64 xl:w-72 flex-shrink-0 lg:sticky  mt-14 lg:top-0 lg:h-screen md:border-r md:border-gray-200">
         <SellerSidebar />
       </div>
       <div className="flex-1 p-4 sm:p-6 md:p-6 lg:p-8 md:pl-8 lg:pl-12 xl:pl-16 overflow-x-hidden md:max-w-[calc(100%-16rem)] lg:max-w-none">

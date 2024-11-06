@@ -56,7 +56,7 @@ const Transactionss = () => {
   return (
     <div className="flex flex-col sm:flex-row">
      <SellerSidebar/>
-      <div className="flex-1 p-2 sm:p-4 min-h-screen bg-white ml-0 md:ml-64 lg:ml-72">
+      <div className="flex-1 p-2 sm:p-4 min-h-screen bg-white ml-0 md:ml-64  mt-14 lg:ml-72">
         <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
           <header className="py-2 sm:py-4">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary text-center">

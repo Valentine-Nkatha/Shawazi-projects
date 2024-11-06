@@ -72,12 +72,15 @@ export interface LandDetails {
   longitude: string;
 }
 
-export interface User{
-    phone_number: string;
-    role: string;
-    password:string;
-
+export interface User {
+  id: string; 
+  last_name: string;
+  first_name: string;
+  phone_number: string;
+  role: string;
+  password: string;
 }
+
 export interface Transaction {
   date: string;
   status: string;
@@ -87,7 +90,7 @@ export interface Transaction {
 export interface NotificationData {
   message: string;
   timestamp: string;
-  type:string
+  type: string;
 }
 
 export interface UserProfile {
@@ -108,14 +111,15 @@ export interface User {
 }
 
 export interface UserLogin {
+  role: unknown;
   phone_number: string;
   password: string;
-  role: string;
+  
 }
 
 export interface UserDatas {
   name: ReactNode;
-  id:string;
+  id: string;
   first_name: string;
   last_name: string;
   phone_number: string;
@@ -132,7 +136,6 @@ export interface LandPlot {
   location_name: string;
 }
 
-
 declare module 'cookie' {
   interface Cookies {
     get(name: string): string | undefined;
@@ -143,7 +146,6 @@ declare module 'cookie' {
 
   const Cookies: Cookies; 
 }
-
 
 export interface Term {
   text: string;
@@ -156,7 +158,7 @@ export interface Term {
 }
 
 export interface AgreementFormData {
-  terms: [];
+  terms: Term[]; 
   agreement_id: number;
   parcel_number: string;
   seller: string;
@@ -206,15 +208,12 @@ export interface AgreementType {
 }
 
 export interface ContractReviewPopupProps {
-  
   onClose: () => void;
   onAgreementUpdate: () => void;
   onSubmit: (response: { buyer_agreed?: boolean; seller_agreed?: boolean }) => Promise<void>; 
   latestTerm?: Term;
   agreement: AgreementFormData;
   userRole: UserRole;
-     
-
 }
 
 export interface Transaction {
@@ -230,7 +229,6 @@ export interface APIResponse<T> {
   error?: string;
 }
 
-
 export enum UserRole {
   EMPTY = "", 
   BUYER = 'buyer',
@@ -238,7 +236,6 @@ export enum UserRole {
   LAWYER = 'lawyer',
   ADMIN = 'admin',
 }
-
 
 export enum AgreementStatus {
   PENDING = 'pending',

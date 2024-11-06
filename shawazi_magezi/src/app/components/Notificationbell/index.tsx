@@ -12,7 +12,7 @@ const SellerNotifications = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
 
-  // Load notifications from localStorage when the component mounts
+ 
   useEffect(() => {
     const storedNotifications = JSON.parse(localStorage.getItem('sellerNotifications') || '[]');
     setNotifications(storedNotifications);
