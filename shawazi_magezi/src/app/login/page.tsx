@@ -6,7 +6,7 @@ import * as yup from "yup";
 import Link from "next/link";
 import { FaEye, FaEyeSlash, FaPhoneAlt } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { loginUser } from "@/app/utils/userLogin";
+import { loginUser } from "@/app/utils/userLogin"; 
 import { useRouter } from "next/navigation";
 import { setCookie, getCookie } from "cookies-next";
 import { UserLogin } from "../utils/types";

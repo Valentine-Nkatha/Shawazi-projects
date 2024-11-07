@@ -28,11 +28,11 @@ function LandDetailsList() {
     "172",
     "104",
     "103",
-    "21",
+    "37",
     "100",
-    "16",
-    "25",
-    "64",
+    "58",
+    "53",
+    "69",
     "99",
     "122",
     "121",
@@ -132,7 +132,6 @@ function LandDetailsList() {
       setLoadingStates((prev) => ({ ...prev, [land.land_details_id]: false }));
     }
   };
-
   return (
     <div className="flex flex-col md:flex-row">
       {/* Sidebar */}
