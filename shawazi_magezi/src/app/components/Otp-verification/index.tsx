@@ -28,11 +28,14 @@ const OtpVerification = () => {
   }, [router]);
 
   const handleOtpChange = (index: number, value: string) => {
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-    if (value && inputRefs.current[index + 1]) {
-      inputRefs.current[index + 1]?.focus();
+    // Ensure only numeric input is allowed
+    if (/^\d*$/.test(value)) {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+      if (value && inputRefs.current[index + 1]) {
+        inputRefs.current[index + 1]?.focus();
+      }
     }
   };
 
