@@ -8,13 +8,22 @@ import { LandDetails, UserDatas } from "@/app/utils/types";
 import { FaTh, FaList } from "react-icons/fa";
 import LandSearch from "../components/Searchbar";
 import Cookies from "js-cookie";
-import BuyerSidebar from "../components/buyerSidebar";
+import BuyerSidebar from "../components/Buyersidebar";
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 const ITEMS_PER_PAGE = 6;
 function LandDetailsList() {
   const [landIds] = useState([
     "166",
     "167",
+    "173",
+    "174",
+    "175",
+    "176",
+    "177",
+    "178",
+    "179",
+    "180",
+    "181",
     "171",
     "172",
     "104",
@@ -255,4 +264,3 @@ function LandDetailsList() {
   );
 }
 export default LandDetailsList;
-

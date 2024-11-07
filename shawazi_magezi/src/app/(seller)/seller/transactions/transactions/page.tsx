@@ -9,7 +9,7 @@ const TransactionsDisplay = () => {
   const { transactions, isLoading, error } = useTransactions();
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-white">
+    <div className="flex flex-col md:flex-row min-h-screen  mt-14 bg-white">
       <div className="w-full md:w-64 lg:w-72 flex-shrink-0">
         <SellerSidebar/>
       </div>
@@ -76,7 +76,7 @@ const TransactionsDisplay = () => {
                           </span>
                         </td>
                         <td className="p-3 text-sm md:text-base lg:text-lg">{transaction.amount}</td>
-                        <td className="p-3 text-sm md:text-base lg:text-lg">{transaction.code}</td>
+                        <td className="p-3 text-sm md:text-base lg:text-lg">{transaction.unique_code}</td>
                       </tr>
                     ))
                 ) : (

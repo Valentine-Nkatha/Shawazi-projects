@@ -10,7 +10,7 @@ import { UserDatas } from "@/app/utils/types";
 import { Toaster, toast } from "react-hot-toast";
 import { CgProfile } from "react-icons/cg";
 import InviteLawyerModal from "@/app/(lawyer)/lawyer/components/Invite-lawyer";
-import BuyerSidebar from "../components/buyerSidebar";
+import BuyerSidebar from "../components/Buyersidebar";
 
 type GetUserType = {
   first_name: string;
@@ -43,14 +43,19 @@ const ChatRoom: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<GetUserType | null>(null);
   const messagesEndRef = useScrollToBottom<HTMLDivElement>();
   const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
-  const [currentUserFirstName, setCurrentUserFirstName] = useState<string | null>(null);
+  const [currentUserFirstName, setCurrentUserFirstName] = useState<
+    string | null
+  >(null);
   const [sendingMessage, setSendingMessage] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUserListVisible, setIsUserListVisible] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
-  const { messages, sendMessage } = useChatMessages(currentUserRole || "", currentUserFirstName || "");
+  const { messages, sendMessage } = useChatMessages(
+    currentUserRole || "",
+    currentUserFirstName || ""
+  );
 
   useEffect(() => {
     const userRole = getCookie("role") as string;
@@ -91,12 +96,17 @@ const ChatRoom: React.FC = () => {
   };
 
   const handleSendMessage = async (
-    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
+    e:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement>
+      | React.KeyboardEvent<HTMLInputElement>
   ) => {
     e.preventDefault();
 
     if (inputMessage.trim() === "" || !selectedUser || sendingMessage) {
-      setErrorMessage("Cannot send message: Message is empty or no user selected.");
+      setErrorMessage(
+        "Cannot send message: Message is empty or no user selected."
+      );
       return;
     }
     setSendingMessage(true);
@@ -113,8 +123,10 @@ const ChatRoom: React.FC = () => {
   };
 
   const filteredMessages = selectedUser
-    ? messages.filter((message: Message) =>
-        message.sender === currentUserFirstName || message.receiverFirstName === selectedUser.first_name
+    ? messages.filter(
+        (message: Message) =>
+          message.sender === currentUserFirstName ||
+          message.receiverFirstName === selectedUser.first_name
       )
     : [];
 
@@ -145,13 +157,16 @@ const ChatRoom: React.FC = () => {
     };
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/send_invitation/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(invitationData),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/send_invitation/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(invitationData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to send invitation");
@@ -160,7 +175,9 @@ const ChatRoom: React.FC = () => {
       toast.success("Invitation sent successfully!");
       handleCloseModal();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Something went wrong");
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong"
+      );
     }
   };
 
@@ -178,11 +195,14 @@ const ChatRoom: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="flex justify-center items-center h-full">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-full">Loading...</div>
+    );
   }
 
   if (usersError) {
-    const errorMessage = typeof usersError === "string" ? usersError : usersError.message;
+    const errorMessage =
+      typeof usersError === "string" ? usersError : usersError.message;
     return (
       <div className="flex justify-center items-center h-full">
         Error: {errorMessage}
@@ -198,13 +218,19 @@ const ChatRoom: React.FC = () => {
       </div>
 
       <div className="lg:hidden">
-        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-4 text-gray-500 focus:outline-none focus:text-gray-700">
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="p-4 text-gray-500 focus:outline-none focus:text-gray-700"
+        >
           <Menu size={24} />
         </button>
         {isSidebarOpen && (
           <div className="fixed inset-0 z-50 bg-white">
             <div className="p-4">
-              <button onClick={() => setIsSidebarOpen(false)} className="mb-4 text-gray-500 focus:outline-none focus:text-gray-700">
+              <button
+                onClick={() => setIsSidebarOpen(false)}
+                className="mb-4 text-gray-500 focus:outline-none focus:text-gray-700"
+              >
                 Close
               </button>
             </div>
@@ -213,7 +239,9 @@ const ChatRoom: React.FC = () => {
       </div>
 
       <div className="flex-grow flex flex-col md:flex-row">
-        <div className={`w-full md:w-1/4 lg:w-1/3 xl:w-1/4 bg-white p-4 border-r border-gray-200 shadow-md hidden lg:block`}>
+        <div
+          className={`w-full md:w-1/4 lg:w-1/3 xl:w-1/4 bg-white p-4 border-r border-gray-200 shadow-md hidden lg:block`}
+        >
           <div className="mb-4 flex justify-between items-center">
             <input
               type="text"
@@ -227,7 +255,10 @@ const ChatRoom: React.FC = () => {
             </button>
           </div>
           <h2 className="font-semibold mt-4">{getUserListTitle()}</h2>
-          <div className="flex-grow overflow-y-auto mt-2 bg-[#c5daa6]" style={{ maxHeight: "60vh" }}>
+          <div
+            className="flex-grow overflow-y-auto mt-2 bg-[#c5daa6]"
+            style={{ maxHeight: "60vh" }}
+          >
             {filteredUsers.length > 0 ? (
               filteredUsers.map((user) => (
                 <UserCard
@@ -237,7 +268,9 @@ const ChatRoom: React.FC = () => {
                 />
               ))
             ) : (
-              <p className="text-gray-600 p-4">No users found matching &quot;{searchTerm}&quot;</p>
+              <p className="text-gray-600 p-4">
+                No users found matching &quot;{searchTerm}&quot;
+              </p>
             )}
           </div>
         </div>
@@ -263,7 +296,11 @@ const ChatRoom: React.FC = () => {
               <span>
                 {selectedUser ? selectedUser.first_name : getUserListTitle()}
               </span>
-              <ChevronDown className={`transform transition-transform ${isUserListVisible ? "rotate-180" : ""}`} />
+              <ChevronDown
+                className={`transform transition-transform ${
+                  isUserListVisible ? "rotate-180" : ""
+                }`}
+              />
             </button>
             {isUserListVisible && (
               <div className="absolute z-10 w-full mt-2 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
@@ -277,11 +314,16 @@ const ChatRoom: React.FC = () => {
                         setIsUserListVisible(false);
                       }}
                     >
-                      <UserCard user={user as Partial<UserDatas>} startConversation={() => {}} />
+                      <UserCard
+                        user={user as Partial<UserDatas>}
+                        startConversation={() => {}}
+                      />
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-600 p-4">No users found matching &quot;{searchTerm}&quot;</p>
+                  <p className="text-gray-600 p-4">
+                    No users found matching &quot;{searchTerm}&quot;
+                  </p>
                 )}
               </div>
             )}
@@ -294,14 +336,25 @@ const ChatRoom: React.FC = () => {
               Chat with {selectedUser ? selectedUser.first_name : "..."}
             </h2>
             {filteredMessages.map((message, index) => (
-              <div key={index} className={`my-2 ${message.sender === currentUserFirstName ? "text-right" : "text-left"}`}>
+              <div
+                key={index}
+                className={`my-2 ${
+                  message.sender === currentUserFirstName
+                    ? "text-right"
+                    : "text-left"
+                }`}
+              >
                 <div className="flex items-center justify-end mr-4">
                   <div className="bg-[#D0F1A1] p-7 rounded-lg shadow-md flex items-center">
                     <CgProfile className="text-primary mr-2 text-2xl" />
-                    <span className="font-semibold text-xl">{message.sender}:</span>
+                    <span className="font-semibold text-xl">
+                      {message.sender}:
+                    </span>
                     <span className="text-xl ml-2">{message.content}</span>
                   </div>
-                  <div className="text-gray-500 text-xs ml-2">{formatTime(message.timestamp)}</div>
+                  <div className="text-gray-500 text-xs ml-2">
+                    {formatTime(message.timestamp)}
+                  </div>
                 </div>
               </div>
             ))}
@@ -317,19 +370,31 @@ const ChatRoom: React.FC = () => {
                 placeholder="Type your message..."
                 className="border-hover border-2 p-2 rounded-l w-[95%]"
               />
-              <button type="submit" className="bg-hover text-white hover:bg-green-600 p-2 rounded-r w-1/8">
+              <button
+                type="submit"
+                className="bg-hover text-white hover:bg-green-600 p-2 rounded-r w-1/8"
+              >
                 <Send />
               </button>
             </form>
-            {errorMessage && <div className="text-red-600 mt-2">{errorMessage}</div>}
-            <button className="w-full mt-2 bg-hover text-white hover:bg-green-600 p-2 rounded" onClick={handleInviteLawyerClick}>
+            {errorMessage && (
+              <div className="text-red-600 mt-2">{errorMessage}</div>
+            )}
+            <button
+              className="w-full mt-2 bg-hover text-white hover:bg-green-600 p-2 rounded"
+              onClick={handleInviteLawyerClick}
+            >
               Invite Lawyer
             </button>
           </div>
         </div>
       </div>
 
-      <InviteLawyerModal open={isModalOpen} onClose={handleCloseModal} onSubmit={handleInviteLawyerSubmit} />
+      <InviteLawyerModal
+        open={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleInviteLawyerSubmit}
+      />
     </div>
   );
 };

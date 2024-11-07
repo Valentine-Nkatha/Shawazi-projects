@@ -4,10 +4,7 @@ import { formatDate } from "@/app/utils/formatDate";
 import useTransactions from "@/app/hooks/useTransactions";
 import { IoArrowBackOutline } from "react-icons/io5";
 import Link from "next/link";
-import BuyerSidebar from "../../components/buyerSidebar";
-
-
-
+import BuyerSidebar from "../../components/Buyersidebar";
 
 interface Transaction {
   date: string;
@@ -16,7 +13,7 @@ interface Transaction {
   amount: string | number;
 }
 
-const ITEMS_PER_PAGE = 7; 
+const ITEMS_PER_PAGE = 7;
 
 const Transactionss = () => {
   const { transactions, isLoading, error } = useTransactions();
@@ -57,8 +54,8 @@ const Transactionss = () => {
 
   return (
     <div className="flex flex-col sm:flex-row">
-     <BuyerSidebar/>
-      <div className="flex-1 p-2 sm:p-4 min-h-screen bg-white ml-0 md:ml-64 lg:ml-72">
+      <BuyerSidebar />
+      <div className="flex-1 p-2 sm:p-4 min-h-screen bg-white ml-0 md:ml-64  mt-14 lg:ml-72">
         <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
           <header className="py-2 sm:py-4">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary text-center">
@@ -164,7 +161,6 @@ const Transactionss = () => {
             </table>
           </div>
 
-          
           {totalPages > 1 && (
             <div className="flex justify-between items-center mt-4">
               <button
@@ -193,14 +189,3 @@ const Transactionss = () => {
 };
 
 export default Transactionss;
-
-
-
-
-
-
-
-
-
-
-

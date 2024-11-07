@@ -1,6 +1,4 @@
-
 "use client";
-
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,26 +12,31 @@ import { setCookie, getCookie } from "cookies-next";
 import { UserLogin } from "../utils/types";
 
 const schema = yup.object().shape({
-  phone_number: yup.string()
+  phone_number: yup
+    .string()
     .matches(/^\+254\d{9}$/, 'Phone number must start with +254 and be 13 characters long')
     .required('Phone number is required'),
-
-  password: yup.string()
+  password: yup
+    .string()
     .min(6, 'Password must be at least 6 characters')
     .matches(/[A-Z]/, 'Password must contain an uppercase letter')
     .matches(/\d/, 'Password must contain a number')
     .matches(/[@$!%*?&#]/, 'Password must contain a special character')
     .required('Password is required'),
-
-   role: yup.string().required('Role is required'),
+  role: yup.string().required('Role is required'),
 });
 
+type FormValues = {
+  phone_number: string;
+  password: string;
+  role: string;
+};
+
 const Login = () => {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<UserLogin>({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormValues>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -42,7 +45,6 @@ const Login = () => {
 
   useEffect(() => {
     const storedPhoneNumber = getCookie("phone_number");
-
     if (storedPhoneNumber) {
       setValue("phone_number", storedPhoneNumber.toString());
     }
@@ -51,22 +53,14 @@ const Login = () => {
   const onSubmit = async (data: UserLogin) => {
     setLoading(true);
     setError("");
-
     try {
-
       const loginResponse = await loginUser(data);
-
       if (loginResponse) {
-        const { first_name, last_name } = loginResponse; 
-
+        const { first_name, last_name } = loginResponse;
         setCookie("role", data.role, { maxAge: 60 * 60 * 24 });
         setCookie("phone_number", data.phone_number, { maxAge: 60 * 60 * 24 });
         setCookie("first_name", first_name, { maxAge: 60 * 60 * 24 });
         setCookie("last_name", last_name, { maxAge: 60 * 60 * 24 });
- 
-
-        localStorage.setItem("userRole", data.role);
-        localStorage.setItem("phone_number", data.phone_number);
 
         if (rememberMe) {
           localStorage.setItem("rememberedLogin", "true");
@@ -75,8 +69,7 @@ const Login = () => {
           localStorage.removeItem("rememberedLogin");
           localStorage.removeItem("phone_number");
         }
-
-        router.push('/otp-verification'); 
+        router.push('/otp-verification');
       } else {
         setError("Login failed. Please check your credentials.");
       }
@@ -188,7 +181,7 @@ const Login = () => {
           </button>
         </form>
         <div className="mt-4 text-center">
-          Don't have an account?{" "}
+            Don&#39;t have an account?{" "}
           <Link href="/register" className="text-primary hover:text-secondary">
             Sign up
           </Link>
