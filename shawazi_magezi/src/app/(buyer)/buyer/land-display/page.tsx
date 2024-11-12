@@ -13,7 +13,7 @@ const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 const ITEMS_PER_PAGE = 6;
 function LandDetailsList() {
   const [landIds] = useState([
-    "232",
+    "200",
     "167",
     "233",
     "234",
